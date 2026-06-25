@@ -1,13 +1,10 @@
 # Sheetric
 
-## Purpose
-Sheetric 프로젝트의 기능정의, 결정 이력, 참고 자료를 관리한다.
+## Summary
+Sheetric 프로젝트 문서 모음.
 
-## Spec-Flow Required References
-Shetric 기능 추가/수정 시 아래 문서를 참고한다.
-- project-context.md
-- features/feature-index.md
-- decisions/decision-index.md
-- references/links.md
-- ../../meetings/
-- ../../global/
+## Documents
+- [Project Context](project-context.md)
+- [Features](features/feature-index.md)
+- [Decisions](decisions/decision-index.md)
+- [Links](references/links.md)
