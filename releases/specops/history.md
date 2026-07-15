@@ -2,6 +2,14 @@
 
 ---
 
+## v1.1.0 (2026-07-15)
+
+ZIP: `spec-harness-kit-v1.1.0-20260715.zip` · 파일 수: 49개
+
+- **macOS-only 패키지 전환** — Windows/PowerShell 스크립트 전량 제거 (install.ps1, run_all_harness.ps1, run_e2e_harness.ps1, run_repair_loop.ps1, harness/*.ps1 등 11개), 문서도 macOS 기준으로만 정리
+- **Feature Index Schema v1.1 추가** — `features/feature-index.md`를 AI 참조 기능 지도로 정의하고, feature_slug 안정성·primary/related 화면·e2e 기반 writeback 규칙 추가
+
+---
 ## v1.0.0 (2026-07-14)
 
 ZIP: `spec-harness-kit-v1.0.0-20260714.zip` · 파일 수: 61개
