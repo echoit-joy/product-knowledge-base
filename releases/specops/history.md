@@ -2,6 +2,17 @@
 
 ---
 
+## v1.2.0 (2026-07-15)
+
+ZIP: `spec-harness-kit-v1.2.0-20260715.zip` · 파일 수: 49개
+
+- **Feature Index 자동 갱신 안정화** — `/spec-flow` Step 7-FI 및 `/project-flow` Step 10-B의 feature-index writeback 흐름 안정화
+- **`/spec-flow` Step 7-FI**: e2e PASS 후 `kb-writeback.json` 저장 명세 추가 (10개 필드: feature_index_source·changed_rows·appended_rows·updated_rows·skipped_rows·e2e_gate·write_mode·branch·commit_sha·rollback_command). GitHub write 전 변경 예정 diff 사용자 확인 필수.
+- **`/project-flow` kb-writeback.json**: 누락 6개 필드 추가 (feature_index_source·changed_rows·appended_rows·updated_rows·skipped_rows·e2e_gate). single 모드 전체 e2e fail_count=0 게이트 명문화. split-by-feature 모드 기능별 PASS/FAIL 분기 규칙 추가.
+- **package_release.sh 검증 5개 추가**: feature-index 갱신 후보 단계 존재·split-by-feature 규칙·feature_slug rename 금지·spec-flow kb-writeback feature_index_source·project-flow kb-writeback feature_index_source
+- **harness_version v1.2.0** bump
+
+---
 ## v1.1.0 (2026-07-15)
 
 ZIP: `spec-harness-kit-v1.1.0-20260715.zip` · 파일 수: 49개
