@@ -34,7 +34,7 @@ install: CLEAN (package_release.sh 검증 완료)
 
 - 이전 버전 ZIP과 함께 사용하지 마세요.
 - `install.sh` 실행 전 Claude Code가 실행 중이면 종료 후 실행하세요.
-- GitHub KB write 기능(`/project-flow`)은 `gh auth login`이 필요합니다.
+- GitHub KB write 기능(`/spec-flow`의 feature-index 갱신, `/project-flow`의 KB writeback)은 `gh auth login`이 필요합니다.
 
 ---
 
