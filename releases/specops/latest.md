@@ -10,15 +10,23 @@ install: CLEAN (package_release.sh 검증 완료)
 
 ## 주요 변경점
 
-- **Google Sheets writeback MVP** — XLSX 생성 후 선택적으로 Google Sheets에 writeback. XLSX는 항상 유지되며 Sheets writeback은 추가 배포 경로.
-- **Step 0-DM (Delivery Mode 선택)**: `/spec-flow` · `/project-flow` 시작 직후 xlsx_only / xlsx_and_gsheets / xlsx_then_later 선택. 기본값: xlsx_only. 기존 플로우와 동일하게 동작.
-- **`/spec-flow` Step 7-GS**: e2e gate 통과 후 Google Sheets writeback — target 입력 → parse 미리보기 → dry-run → 사용자 승인 → write → verify → report 저장.
-- **`/project-flow` Step 11-GS**: cascade Step 11 완료 후 Google Sheets writeback (동일 흐름).
-- **`scripts/gsheets_writeback.py` 신규**: OAuth 2.0 인증(macOS Keychain 우선), dry-run(읽기 전용), write 3분기(write/safe-write/overwrite approve), verify, report 저장(URL/ID 마스킹).
-- **`workspace/gsheets-target.local.yaml.template` 신규**: 팀원이 복사·수정하여 사용하는 target 설정 템플릿.
-- **package_release.sh 검증 10개 추가**: gsheets_writeback.py 존재·template 존재·local.yaml 혼입 금지·token 혼입 금지·URL 평문 노출 금지·Step 7-GS·0-DM·11-GS 섹션 존재·마스킹 키워드 존재.
-- **EXPECTED_COUNT=51** (v1.2.0: 49 → v1.3.0: 51, +2 파일)
-- **harness_version v1.3.0** bump
+- **Google Sheets로 바로 옮기기 지원**
+  - 기능정의서, L10N, QA TC를 XLSX로 만든 뒤 원하면 Google Sheets에도 바로 넣을 수 있습니다.
+  - 기존처럼 XLSX만 받는 방식도 그대로 사용할 수 있습니다.
+
+  - `xlsx_only`: 기존처럼 XLSX만 생성
+  - `xlsx_and_gsheets`: XLSX 생성 후 Google Sheets에 쓰기
+  - `xlsx_then_later`: 지금은 XLSX만 받고, 나중에 Sheets 반영
+
+- **Google Sheets에 쓰기 전 미리보기**
+  - 어느 문서, 어느 탭, 어느 셀부터 들어갈지 먼저 보여줍니다.
+  - 기존 데이터가 있으면 덮어쓰기 위험을 알려주고, 승인 없이는 쓰지 않습니다.
+
+- **쓰기 후 검증**
+  - Google Sheets에 들어간 행 수, 열 수, 헤더가 원본 XLSX와 맞는지 다시 확인합니다.
+
+- **안전 장치 추가**
+  - 실제 Google Sheets URL, OAuth token, 개인 설정 파일은 ZIP이나 GitHub 문서에 포함되지 않도록 검사합니다.
 
 ---
 
