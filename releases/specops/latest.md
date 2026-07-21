@@ -14,6 +14,7 @@ install: CLEAN (package_release.sh 검증 완료)
   - 기능정의서, L10N, QA TC를 XLSX로 만든 뒤 원하면 Google Sheets에도 바로 넣을 수 있습니다.
   - 기존처럼 XLSX만 받는 방식도 그대로 사용할 수 있습니다.
 
+- **산출물 받는 방식 선택 추가**
   - `xlsx_only`: 기존처럼 XLSX만 생성
   - `xlsx_and_gsheets`: XLSX 생성 후 Google Sheets에 쓰기
   - `xlsx_then_later`: 지금은 XLSX만 받고, 나중에 Sheets 반영
