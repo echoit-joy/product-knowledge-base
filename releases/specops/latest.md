@@ -34,6 +34,8 @@ install: CLEAN (package_release.sh 검증 완료)
   - 기존 `xlsx_then_later` 옵션을 제거하고 `gsheets_only`를 추가했습니다.
   - `/spec-flow`, `/project-flow` 시작 직후 Step 0-DM에서 아래 3가지 중 하나를 선택합니다.
 
+  <br>
+
   | 모드 | 설명 |
   |------|------|
   | `xlsx_only` | XLSX만 생성 **(기본값)** |
@@ -48,12 +50,27 @@ install: CLEAN (package_release.sh 검증 완료)
 2. 기존 `spec-harness-kit/` 폴더를 새 ZIP으로 교체
 3. `bash install.sh` 실행 (명령어 파일 갱신)
 4. Claude Code 재시작
-5. (Google Sheets 사용 시) `/spec-flow` 또는 `/project-flow` 시작 시 Step 0-DM 선택:
+5. Google Sheets writeback을 사용할 팀원만 최초 1회 OAuth JSON 등록:
+   - 관리자가 Google Cloud OAuth 앱의 **Test users**에 팀원 Google 계정을 등록합니다.
+   - 관리자가 OAuth client JSON 파일(`client_secret_...apps.googleusercontent.com.json`)을 승인된 팀원에게 안전한 내부 채널로 전달합니다.
+   - 팀원은 받은 JSON 파일을 `Downloads` 등에 둔 뒤 아래 명령을 실행합니다.
+
+     ```bash
+     bash scripts/setup_gsheets_oauth.sh ~/Downloads/client_secret_...apps.googleusercontent.com.json
+     ```
+
+   - 첫 writeback 실행 시 브라우저에서 본인 Google 계정으로 승인합니다.
+   - `403 access_denied`가 나오면 Test users 미등록 또는 다른 Google 계정으로 로그인한 가능성이 큽니다.
+6. (Google Sheets 사용 시) `/spec-flow` 또는 `/project-flow` 시작 시 Step 0-DM 선택:
    - `1` — `xlsx_only`: XLSX만 생성 (기본값, Enter 입력 시 자동 선택)
    - `2` — `gsheets_only`: Google Sheets에만 쓰기 (XLSX를 workspace에 남기지 않음)
    - `3` — `xlsx_and_gsheets`: XLSX와 Google Sheets 둘 다 생성
 
-> **workspace/spec/, workspace/qa/ 내 기존 XLSX는 삭제되지 않습니다.**
+> 팀원이 Google Cloud OAuth client를 직접 만들 필요는 없습니다.  
+> `client_secret` JSON은 승인된 팀원에게만 공유하고, GitHub/ZIP/workspace에는 넣지 마세요.  
+> `token.json`은 절대 공유하지 마세요.  
+> Google Sheets 자체 편집 권한은 별도로 필요합니다.  
+> **workspace/spec/, workspace/qa/ 내 기존 XLSX는 삭제되지 않습니다.**  
 > 새 ZIP을 이전 폴더 위치에 압축 해제하면 파일이 덮어써질 수 있으니 주의하세요.
 
 ---
