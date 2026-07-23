@@ -30,6 +30,16 @@ install: CLEAN (package_release.sh 검증 완료)
   - "파일 기능 삭제" decision에서 "파일", "폴더"를 금지어로 등록하면 "폴더 색상 변경" 같은 무관한 기능도 차단되던 문제를 예방합니다.
   - 삭제된 기능의 구체적인 동작만 금지어로 쓰도록 규칙과 회귀 사례를 추가했습니다.
 
+- **Delivery Mode UX 변경 — `xlsx_only` / `gsheets_only` / `xlsx_and_gsheets` 3가지로 재편**
+  - 기존 `xlsx_then_later` 옵션을 제거하고 `gsheets_only`를 추가했습니다.
+  - `/spec-flow`, `/project-flow` 시작 직후 Step 0-DM에서 아래 3가지 중 하나를 선택합니다.
+
+  | 모드 | 설명 |
+  |------|------|
+  | `xlsx_only` | XLSX만 생성 **(기본값)** |
+  | `gsheets_only` | Google Sheets에만 쓰기 — 내부 검증용 임시 XLSX로 e2e 후 writeback, `workspace/spec`·`qa`에 XLSX 잔류 없음 |
+  | `xlsx_and_gsheets` | XLSX 생성 후 e2e gate 통과 시 Google Sheets writeback |
+
 ---
 
 ## 팀원이 해야 할 일
@@ -38,6 +48,10 @@ install: CLEAN (package_release.sh 검증 완료)
 2. 기존 `spec-harness-kit/` 폴더를 새 ZIP으로 교체
 3. `bash install.sh` 실행 (명령어 파일 갱신)
 4. Claude Code 재시작
+5. (Google Sheets 사용 시) `/spec-flow` 또는 `/project-flow` 시작 시 Step 0-DM 선택:
+   - `1` — `xlsx_only`: XLSX만 생성 (기본값, Enter 입력 시 자동 선택)
+   - `2` — `gsheets_only`: Google Sheets에만 쓰기 (XLSX를 workspace에 남기지 않음)
+   - `3` — `xlsx_and_gsheets`: XLSX와 Google Sheets 둘 다 생성
 
 > **workspace/spec/, workspace/qa/ 내 기존 XLSX는 삭제되지 않습니다.**
 > 새 ZIP을 이전 폴더 위치에 압축 해제하면 파일이 덮어써질 수 있으니 주의하세요.
