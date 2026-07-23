@@ -26,6 +26,10 @@ ZIP: `spec-harness-kit-v1.3.2-20260723.zip` · 파일 수: 52개
   - "파일 기능 삭제" decision에서 "파일", "폴더"를 금지어로 등록하면 "폴더 색상 변경" 같은 무관한 기능도 차단되던 문제를 예방합니다.
   - 삭제된 기능의 구체적인 동작만 금지어로 쓰도록 규칙과 회귀 사례를 추가했습니다.
 
+- **Delivery Mode UX 변경 — `xlsx_then_later` 제거, `gsheets_only` 추가**
+  - `xlsx_only` / `gsheets_only` / `xlsx_and_gsheets` 3가지로 재편했습니다.
+  - `gsheets_only` 모드: 내부 검증용 임시 XLSX로 e2e를 수행하고, PASS 후 Google Sheets에만 writeback합니다. workspace/spec·qa에 XLSX가 남지 않습니다.
+
 ---
 ## v1.3.1 (2026-07-21)
 
