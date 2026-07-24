@@ -128,7 +128,6 @@ Toast는 아래 5가지 타입을 표준으로 사용합니다. L10N의 `기능 
 
 ### Toast 작성 규칙
 
-- `Toast Normal`은 사용하지 않고 `Normal Toast`로 단일화한다.
 - `토스트 모달`, `toast modal`은 사용하지 않는다.
 - 사용자의 액션 결과를 짧게 알리는 경우는 `Toast`를 우선 검토한다.
 - 확인, 취소, 입력처럼 사용자의 응답이 필요한 경우는 `Toast`가 아니라 `Modal`을 사용한다.
@@ -151,7 +150,8 @@ Toast는 아래 5가지 타입을 표준으로 사용합니다. L10N의 `기능 
 
 ## Button Naming
 
-Button을 상세히 지정할 때는 아래 값을 사용합니다.
+Button의 variant, size, content type, state는 디자인 시안이나 검증 조건에서 구분이 필요할 때만 명시합니다.
+기능정의서의 모든 버튼에 아래 값을 기계적으로 붙이지 않습니다.
 
 | 구분 | 표준값 |
 |---|---|
@@ -160,11 +160,13 @@ Button을 상세히 지정할 때는 아래 값을 사용합니다.
 | content type | `Label`, `LabelIcon`, `IconOnly`, `Underline` |
 | state | `Default`, `Hover`, `Pressed`, `Disabled` |
 
-예시:
+작성 기준:
 
-- `Primary Button / Md / Label / Default`
-- `Link Button / Md / Underline / Hover`
-- `IconOnly Button / Sm / Disabled`
+- 일반적인 버튼은 `확인 버튼`, `취소 버튼`, `저장 버튼`처럼 기능 중심으로 쓴다.
+- variant, size, state는 기본값과 다르거나 QA에서 확인해야 할 때만 적는다.
+- hover, pressed, disabled 같은 시각 상태는 기능 동작의 핵심 조건일 때만 명시한다.
+- 색상, 간격, hover 스타일은 별도 요구가 없으면 디자인 시스템 기준을 따른다고 처리한다.
+- 예: `링크 버튼 hover 스타일은 디자인 시스템의 Link Button 기준을 따른다.`
 
 ## 자주 혼동되는 표현
 
