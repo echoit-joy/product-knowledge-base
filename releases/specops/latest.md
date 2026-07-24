@@ -3,41 +3,18 @@
 배포일: 2026-07-23
 ZIP: `spec-harness-kit-v1.3.2-20260723.zip`
 파일 수: 52개 (.gitkeep 6개 포함)
-e2e: PASS (fail=0, warn=0)
+e2e: PASS_WITH_REVIEW (fail=0)
 install: CLEAN (package_release.sh 검증 완료)
 
 ---
 
 ## 주요 변경점
 
-- **Google Sheets 여러 시트 한 번에 읽기 (hotfix)**
-  - `기능정의_A`, `기능정의_B` 등 여러 시트가 있을 때 첫 번째 시트만 쓰던 버그를 수정했습니다.
-  - 이제 `기능정의_` 접두사가 있는 시트를 전부 병합해서 Google Sheets에 씁니다.
+### Google Sheets 연동
 
-- **Google Sheets 검증 범위 정확도 개선 (hotfix)**
-  - 검증 단계에서 데이터 범위를 `ZZ9999` 같은 열린 범위로 조회하던 문제를 수정했습니다.
-  - 이제 실제 행·열 수에 맞는 정확한 범위로 조회해 검증 오류가 줄었습니다.
-
-- **Google Sheets OAuth 팀 배포 스크립트 추가**
-  - 팀원이 Google Sheets 연동을 위해 직접 Google Cloud 프로젝트를 만들 필요가 없습니다.
-  - 관리자가 만든 `client_secret.json`을 `scripts/setup_gsheets_oauth.sh`로 간편하게 등록합니다.
-
-- **Step 1 인터뷰 질문 수 제한 금지 규칙 추가**
-  - 질문이 많을 때 3개만 묻고 나머지를 누락한 채 Draft를 진행하는 문제를 방지합니다.
-  - 질문 backlog(`remaining_question_count`)를 소진한 후에만 Draft로 넘어갑니다.
-
-- **FORBIDDEN_DOMAINS 오탐 방지 규칙 추가**
-  - "파일 기능 삭제" decision에서 "파일", "폴더"를 금지어로 등록하면 "폴더 색상 변경" 같은 무관한 기능도 차단되던 문제를 예방합니다.
-  - 삭제된 기능의 구체적인 동작만 금지어로 쓰도록 규칙과 회귀 사례를 추가했습니다.
-
-- **Global Glossary 참고 추가**
-  - 공통 UI 용어 기준(`global/glossary.md`)을 `/spec-flow`, `/project-flow`에서 참고합니다.
-  - Toast, Modal, Pop-up, Popover, Button 상태값처럼 자주 흔들리던 표현은 `global/glossary.md` 기준으로 맞춥니다.
-  - 기능정의서에는 불필요한 디자인 세부 조합을 기계적으로 넣지 않도록 했습니다.
-
-- **Delivery Mode UX 변경 — `xlsx_only` / `gsheets_only` / `xlsx_and_gsheets` 3가지로 재편**
-  - 기존 `xlsx_then_later` 옵션을 제거하고 `gsheets_only`를 추가했습니다.
-  - `/spec-flow`, `/project-flow` 시작 직후 Step 0-DM에서 아래 3가지 중 하나를 선택합니다.
+- **산출물 받는 방식 선택 개선**
+  - `/spec-flow`, `/project-flow` 시작 직후 산출물을 어떻게 받을지 선택합니다.
+  - 기존 `xlsx_then_later` 옵션을 제거하고, Google Sheets에만 쓰는 `gsheets_only`를 추가했습니다.
 
   <br>
 
@@ -46,6 +23,35 @@ install: CLEAN (package_release.sh 검증 완료)
   | `xlsx_only` | XLSX만 생성 **(기본값)** |
   | `gsheets_only` | Google Sheets에만 쓰기 — 내부 검증용 임시 XLSX로 e2e 후 writeback, `workspace/spec`·`qa`에 XLSX 잔류 없음 |
   | `xlsx_and_gsheets` | XLSX 생성 후 e2e gate 통과 시 Google Sheets writeback |
+
+- **여러 기능정의 시트도 한 번에 Google Sheets로 보냅니다**
+  - XLSX 안에 `기능정의_내드라이브`, `기능정의_즐겨찾기`처럼 기능정의 시트가 여러 개 있어도 첫 번째 시트만 쓰지 않습니다.
+  - `기능정의_`로 시작하는 시트를 모아 하나의 표처럼 Google Sheets에 씁니다.
+
+- **Google Sheets에 제대로 써졌는지 더 정확히 확인합니다**
+  - 쓰기 후 검증할 때 실제로 쓴 행과 열만 다시 읽습니다.
+  - 예전처럼 빈 영역까지 넓게 읽어서 실패처럼 보이던 문제를 줄였습니다.
+
+- **팀원용 OAuth 등록 스크립트 추가**
+  - 팀원이 Google Sheets 연동을 위해 직접 Google Cloud 프로젝트를 만들 필요가 없습니다.
+  - 관리자가 공유한 `client_secret` JSON을 `scripts/setup_gsheets_oauth.sh`로 한 번만 등록하면 됩니다.
+
+### 작업 흐름 안정성
+
+- **질문이 3개에서 끊기지 않도록 보강**
+  - 확인해야 할 질문이 많을 때 일부만 묻고 Draft로 넘어가지 않도록 했습니다.
+  - 남은 질문 목록을 끝까지 처리한 뒤에만 기능정의서 작성을 진행합니다.
+
+- **삭제된 기능 판단을 더 정확하게 보정**
+  - 기존에는 `파일 기능 삭제` 같은 결정을 너무 넓게 해석해 `폴더 색상 변경`처럼 실제 삭제 대상이 아닌 기능까지 막을 수 있었습니다.
+  - 이제는 삭제하기로 한 구체적인 동작만 충돌 기준으로 보고, 일반 화면명이나 객체명만으로는 요청을 막지 않도록 했습니다.
+
+### 용어 기준
+
+- **Global Glossary 참고 추가**
+  - 공통 UI 용어 기준(`global/glossary.md`)을 `/spec-flow`, `/project-flow`에서 참고합니다.
+  - Toast, Modal, Pop-up, Popover, Button 상태값처럼 자주 흔들리던 표현은 `global/glossary.md` 기준으로 맞춥니다.
+  - 기능정의서에는 불필요한 디자인 세부 조합을 기계적으로 넣지 않도록 했습니다.
 
 ---
 
@@ -75,6 +81,7 @@ install: CLEAN (package_release.sh 검증 완료)
 > `client_secret` JSON은 승인된 팀원에게만 공유하고, GitHub/ZIP/workspace에는 넣지 마세요.  
 > `token.json`은 절대 공유하지 마세요.  
 > Google Sheets 자체 편집 권한은 별도로 필요합니다.  
+>
 > **workspace/spec/, workspace/qa/ 내 기존 XLSX는 삭제되지 않습니다.**  
 > 새 ZIP을 이전 폴더 위치에 압축 해제하면 파일이 덮어써질 수 있으니 주의하세요.
 
