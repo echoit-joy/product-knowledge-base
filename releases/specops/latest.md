@@ -30,6 +30,11 @@ install: CLEAN (package_release.sh 검증 완료)
   - "파일 기능 삭제" decision에서 "파일", "폴더"를 금지어로 등록하면 "폴더 색상 변경" 같은 무관한 기능도 차단되던 문제를 예방합니다.
   - 삭제된 기능의 구체적인 동작만 금지어로 쓰도록 규칙과 회귀 사례를 추가했습니다.
 
+- **Global Glossary 참고 추가**
+  - 공통 UI 용어 기준(`global/glossary.md`)을 `/spec-flow`, `/project-flow`에서 참고합니다.
+  - Toast, Modal, Pop-up, Popover, Button 상태값처럼 자주 흔들리던 표현은 `global/glossary.md` 기준으로 맞춥니다.
+  - 기능정의서에는 불필요한 디자인 세부 조합을 기계적으로 넣지 않도록 했습니다.
+
 - **Delivery Mode UX 변경 — `xlsx_only` / `gsheets_only` / `xlsx_and_gsheets` 3가지로 재편**
   - 기존 `xlsx_then_later` 옵션을 제거하고 `gsheets_only`를 추가했습니다.
   - `/spec-flow`, `/project-flow` 시작 직후 Step 0-DM에서 아래 3가지 중 하나를 선택합니다.
