@@ -30,6 +30,10 @@ ZIP: `spec-harness-kit-v1.3.2-20260723.zip` · 파일 수: 52개
   - `xlsx_only` / `gsheets_only` / `xlsx_and_gsheets` 3가지로 재편했습니다.
   - `gsheets_only` 모드: 내부 검증용 임시 XLSX로 e2e를 수행하고, PASS 후 Google Sheets에만 writeback합니다. workspace/spec·qa에 XLSX가 남지 않습니다.
 
+- **Global Glossary 참고 추가**
+  - 공통 UI 용어 기준(`global/glossary.md`)을 `/spec-flow`, `/project-flow`에서 참고합니다.
+  - Toast, Modal, Pop-up, Popover, Button 등 자주 흔들리던 용어는 glossary 기준으로 보정합니다. 용어 불일치는 기본 WARN.
+
 ---
 ## v1.3.1 (2026-07-21)
 
