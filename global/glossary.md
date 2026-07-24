@@ -165,8 +165,6 @@ Button의 variant, size, content type, state는 디자인 시안이나 검증 �
 - 일반적인 버튼은 `확인 버튼`, `취소 버튼`, `저장 버튼`처럼 기능 중심으로 쓴다.
 - variant, size, state는 기본값과 다르거나 QA에서 확인해야 할 때만 적는다.
 - hover, pressed, disabled 같은 시각 상태는 기능 동작의 핵심 조건일 때만 명시한다.
-- 색상, 간격, hover 스타일은 별도 요구가 없으면 디자인 시스템 기준을 따른다고 처리한다.
-- 예: `링크 버튼 hover 스타일은 디자인 시스템의 Link Button 기준을 따른다.`
 
 ## 자주 혼동되는 표현
 
