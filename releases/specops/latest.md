@@ -8,82 +8,60 @@ install: CLEAN (package_release.sh 검증 완료)
 
 ---
 
+## 한 줄 요약
+
+이번 버전은 **Google Sheets로 바로 쓰기**, **QA TC만 단독 생성하기**, **산출물 받는 방식 선택하기**를 더 편하게 만든 버전입니다.  
+처음 쓰는 팀원도 "XLSX만 받을지, Google Sheets에 바로 쓸지, 둘 다 받을지"를 시작할 때 고를 수 있습니다.
+
+---
+
 ## 주요 변경점
 
-- **`/qa-gen` 로컬 XLSX 단독 실행 지원**
-  - 이제 GitHub에 없는 프로젝트도 로컬 기능정의서 XLSX만 있으면 `/qa-gen`으로 QA TC를 만들 수 있습니다.
-  - GitHub KB는 optional context입니다. KB가 없거나 gh 인증이 없어도 중단하지 않고 로컬 XLSX 기준으로 진행합니다.
-  - 외부 경로(workspace/ 밖) XLSX도 직접 지정할 수 있습니다. 원본 파일은 읽기 전용으로 처리됩니다.
+### 1. `/qa-gen`으로 QA TC만 따로 만들 수 있어요
 
-- **`/qa-gen` Delivery Mode 선택 (Step 0-DM)**
-  - 결과는 XLSX만, Google Sheets만, 둘 다 중 선택할 수 있습니다.
-  - 선택지를 표시한 뒤에만 Enter 기본값(xlsx_only)이 허용됩니다. silent default 금지.
+- GitHub에 프로젝트 문서가 없어도, 로컬 기능정의서 XLSX만 있으면 QA TC를 만들 수 있습니다.
+- GitHub KB가 있으면 참고하고, 없거나 인증이 안 되어 있으면 로컬 XLSX 기준으로 계속 진행합니다.
+- `workspace/` 밖에 있는 XLSX 파일도 경로만 알려주면 읽을 수 있습니다.
+- 원본 XLSX는 읽기 전용으로만 사용하므로 기존 파일이 망가지지 않습니다.
 
-  | 모드 | 설명 |
-  |------|------|
-  | `xlsx_only` | XLSX만 생성 **(기본값)** |
-  | `gsheets_only` | Google Sheets에만 쓰기 — qa_auditor PASS 후 writeback, 임시 XLSX 삭제 |
-  | `xlsx_and_gsheets` | XLSX 생성 + Google Sheets writeback (XLSX 경로·Sheets 기록 범위 모두 안내) |
+### 2. 산출물 받는 방식을 시작할 때 고를 수 있어요
 
-- **QA-only Google Sheets writeback**
-  - qa_auditor `fail_count=0` 통과 후에만 writeback을 실행합니다.
-  - `kind: qa`를 명시해 QA-only target이 spec 시트로 오인되지 않도록 처리합니다.
+`/spec-flow`, `/project-flow`, `/qa-gen` 시작 직후 Step 0-DM에서 아래 3가지 중 하나를 선택합니다.
 
-- **Google Sheets 여러 시트 한 번에 읽기 (hotfix)**
-  - `기능정의_A`, `기능정의_B` 등 여러 시트가 있을 때 첫 번째 시트만 쓰던 버그를 수정했습니다.
-  - 이제 `기능정의_` 접두사가 있는 시트를 전부 병합해서 Google Sheets에 씁니다.
+| 선택 | 언제 쓰면 좋은가요? | 결과 |
+|------|----------------------|------|
+| `xlsx_only` | 기존처럼 파일로 확인하고 싶을 때 | XLSX만 생성합니다. 기본값입니다. |
+| `gsheets_only` | 팀 공유용 Google Sheets에만 남기고 싶을 때 | 내부 검증용 임시 XLSX로 검사한 뒤 Google Sheets에만 씁니다. |
+| `xlsx_and_gsheets` | 파일도 받고 Google Sheets에도 남기고 싶을 때 | XLSX를 생성하고, 검증 통과 후 Google Sheets에도 씁니다. |
 
-- **Google Sheets 검증 범위 정확도 개선 (hotfix)**
-  - 검증 단계에서 데이터 범위를 `ZZ9999` 같은 열린 범위로 조회하던 문제를 수정했습니다.
-  - 이제 실제 행·열 수에 맞는 정확한 범위로 조회해 검증 오류가 줄었습니다.
+### 3. Google Sheets 쓰기가 더 안정적이에요
 
-- **Google Sheets OAuth 팀 배포 스크립트 추가**
-  - 팀원이 Google Sheets 연동을 위해 직접 Google Cloud 프로젝트를 만들 필요가 없습니다.
-  - 관리자가 만든 `client_secret.json`을 `scripts/setup_gsheets_oauth.sh`로 간편하게 등록합니다.
+- 기능정의서가 여러 시트로 나뉘어 있어도 첫 번째 시트만 쓰지 않고, `기능정의_` 시트를 모아 Google Sheets에 씁니다.
+- Google Sheets에 쓴 뒤 실제 행/열 범위를 다시 읽어 검증합니다.
+- QA TC만 Google Sheets에 쓰는 경우도 지원합니다.
+- 팀원은 Google Cloud OAuth client를 직접 만들 필요가 없습니다. 관리자가 공유한 `client_secret` JSON을 한 번 등록하면 됩니다.
 
-- **Step 1 인터뷰 질문 수 제한 금지 규칙 추가**
-  - 질문이 많을 때 3개만 묻고 나머지를 누락한 채 Draft를 진행하는 문제를 방지합니다.
-  - 질문 backlog(`remaining_question_count`)를 소진한 후에만 Draft로 넘어갑니다.
+### 4. AI가 놓치기 쉬운 기획 품질 이슈를 더 잘 잡아요
 
-- **FORBIDDEN_DOMAINS 오탐 방지 규칙 추가**
-  - "파일 기능 삭제" decision에서 "파일", "폴더"를 금지어로 등록하면 "폴더 색상 변경" 같은 무관한 기능도 차단되던 문제를 예방합니다.
-  - 삭제된 기능의 구체적인 동작만 금지어로 쓰도록 규칙과 회귀 사례를 추가했습니다.
+- 질문이 많을 때 3개만 묻고 바로 Draft로 넘어가는 문제를 방지합니다.
+- 삭제된 기능을 너무 넓게 해석해 정상 기능까지 막는 문제를 줄였습니다.
+  - 예: "파일 기능 삭제" 때문에 "폴더 색상 변경"까지 막히지 않도록 보정
+- 공통 UI 용어는 `global/glossary.md`를 참고합니다.
+  - Toast, Modal, Pop-up, Popover, Button 상태값처럼 흔들리기 쉬운 표현을 맞춥니다.
+- Action 컬럼에는 동작만 쓰도록 검증합니다.
+  - `(변경 사항 미적용)`, `변경 전 상태로 유지` 같은 결과 설명이 Action에 들어가면 FAIL 처리합니다.
+- Modal의 X 버튼은 기본 닫기 수단으로 쓰지 않습니다.
+  - X 버튼이 요구사항/reference/decision에 명시된 경우에만 기능정의서와 QA TC에 적습니다.
+  - 외부 클릭과 ESC 닫힘은 기본 동작으로 유지합니다.
 
-- **Global Glossary 참고 추가**
-  - 공통 UI 용어 기준(`global/glossary.md`)을 `/spec-flow`, `/project-flow`에서 참고합니다.
-  - Toast, Modal, Pop-up, Popover, Button 상태값처럼 자주 흔들리던 표현은 `global/glossary.md` 기준으로 맞춥니다.
-  - 기능정의서에는 불필요한 디자인 세부 조합을 기계적으로 넣지 않도록 했습니다.
+### 5. 실행 중 헷갈리던 부분을 정리했어요
 
-- **Action 컬럼 품질 검증 강화 (check 24 FAIL)**
-  - Action 컬럼에 `(변경 사항 미적용)`, `변경 전 상태로 유지` 같은 결과/상태 설명이 들어가면 FAIL로 잡습니다.
-  - Action은 동작만 적고, 결과/기대 상태는 Property, Note, QA 기댓값으로 분리합니다.
-
-- **Modal 닫기 규칙 보정**
-  - X 버튼은 기본 닫기 수단이 아닙니다.
-  - X 버튼만 사용자 요청/reference/decisions에 명시된 경우에만 기능정의서·QA TC에 기재합니다. 외부 클릭·ESC 닫힘은 기본 동작으로 유지됩니다.
-
-- **한글 decision 파일 fetch 안정화**
-  - `파일 기능 삭제.md` 같은 한글 파일명 decision은 GitHub Contents API의 `download_url` 기준으로 읽습니다.
-  - raw URL 직접 조합으로 생기던 404 가능성을 줄였습니다.
-
-- **Google OAuth 안내 보강**
-  - client_secret JSON 경로는 Finder에서 **Option+Command+C**로 복사하고, 터미널/Claude 입력창에 **Option+Command+V**로 붙여넣을 수 있습니다.
-  - Google 인증 화면에서 "확인되지 않은 앱"/"테스트 앱" 경고가 나오면 승인된 Test user 계정으로 **[계속]**을 눌러 진행합니다. **[안전한 환경으로 이동]** 류 버튼은 인증을 중단합니다.
-
-- **`.reports` 정리 정책 추가**
-  - 새 `/spec-flow` / `/project-flow` 시작 시 이전 `latest/` 리포트를 자동 정리하고, 이번 실행 결과만 남깁니다.
-
-- **Delivery Mode UX 변경 — `xlsx_only` / `gsheets_only` / `xlsx_and_gsheets` 3가지로 재편**
-  - 기존 `xlsx_then_later` 옵션을 제거하고 `gsheets_only`를 추가했습니다.
-  - `/spec-flow`, `/project-flow` 시작 직후 Step 0-DM에서 아래 3가지 중 하나를 선택합니다.
-
-  <br>
-
-  | 모드 | 설명 |
-  |------|------|
-  | `xlsx_only` | XLSX만 생성 **(기본값)** |
-  | `gsheets_only` | Google Sheets에만 쓰기 — 내부 검증용 임시 XLSX로 e2e 후 writeback, `workspace/spec`·`qa`에 XLSX 잔류 없음 |
-  | `xlsx_and_gsheets` | XLSX 생성 후 e2e gate 통과 시 Google Sheets writeback |
+- 한글 decision 파일명을 GitHub에서 읽을 때 404가 나던 가능성을 줄였습니다.
+- 새 `/spec-flow` / `/project-flow` 시작 시 이전 `.reports/latest/` 내용을 정리하고 이번 실행 결과만 남깁니다.
+- Google OAuth 인증 안내를 보강했습니다.
+  - Finder에서 파일 경로는 **Option+Command+C**로 복사할 수 있습니다.
+  - 터미널이나 Claude 입력창에는 **Option+Command+V**로 붙여넣을 수 있습니다.
+  - Google 인증 화면에서 "확인되지 않은 앱" 또는 "테스트 앱" 경고가 나오면 승인된 Test user 계정으로 **[계속]**을 눌러 진행합니다.
 
 ---
 
@@ -91,27 +69,13 @@ install: CLEAN (package_release.sh 검증 완료)
 
 1. ZIP 파일(`spec-harness-kit-v1.3.2-20260728.zip`) 다운로드
 2. 기존 `spec-harness-kit/` 폴더를 새 ZIP으로 교체
-3. `bash install.sh` 실행 (명령어 파일 갱신)
+3. `bash install.sh` 실행
 4. Claude Code 재시작
-5. Google Sheets writeback을 사용할 팀원만 최초 1회 OAuth JSON 등록:
-   - 관리자가 Google Cloud OAuth 앱의 **Test users**에 팀원 Google 계정을 등록합니다.
-   - 관리자가 OAuth client JSON 파일(`client_secret_...apps.googleusercontent.com.json`)을 승인된 팀원에게 안전한 내부 채널로 전달합니다.
-   - 팀원은 받은 JSON 파일을 `Downloads` 등에 둔 뒤 아래 명령을 실행합니다.
+5. Google Sheets writeback을 사용할 팀원만 최초 1회 OAuth JSON 등록
 
-     > **경로 입력 팁 (macOS)**: Finder에서 파일을 선택한 뒤 **Option+Command+C**로 경로를 복사하고, 터미널/Claude 입력창에 **Option+Command+V**로 붙여넣으세요.
-
-     ```bash
-     bash scripts/setup_gsheets_oauth.sh ~/Downloads/client_secret_...apps.googleusercontent.com.json
-     ```
-
-   - 첫 writeback 실행 시 브라우저가 열리고 Google 계정 승인을 요청합니다.
-     - **"확인되지 않은 앱" 또는 "테스트 앱" 경고**가 나오면, 승인된 Test user 계정으로 로그인한 상태에서 **[계속]**을 눌러 진행합니다.
-     - **[안전한 환경으로 이동]** 류 버튼은 인증을 중단하므로 누르지 마세요.
-   - `403 access_denied`가 나오면 Test users 미등록 또는 다른 Google 계정으로 로그인한 가능성이 큽니다.
-6. (Google Sheets 사용 시) `/spec-flow` 또는 `/project-flow` 시작 시 Step 0-DM 선택:
-   - `1` — `xlsx_only`: XLSX만 생성 (기본값, Enter 입력 시 자동 선택)
-   - `2` — `gsheets_only`: Google Sheets에만 쓰기 (XLSX를 workspace에 남기지 않음)
-   - `3` — `xlsx_and_gsheets`: XLSX와 Google Sheets 둘 다 생성
+```bash
+bash scripts/setup_gsheets_oauth.sh ~/Downloads/client_secret_...apps.googleusercontent.com.json
+```
 
 > 팀원이 Google Cloud OAuth client를 직접 만들 필요는 없습니다.  
 > `client_secret` JSON은 승인된 팀원에게만 공유하고, GitHub/ZIP/workspace에는 넣지 마세요.  
