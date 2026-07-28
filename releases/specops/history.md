@@ -2,6 +2,26 @@
 
 ---
 
+## v1.3.2 (2026-07-28)
+
+ZIP: `spec-harness-kit-v1.3.2-20260728.zip` · 파일 수: 52개
+
+- **`/qa-gen` 로컬 XLSX 단독 실행 지원**
+  - GitHub에 없는 프로젝트도 로컬 기능정의서 XLSX만 있으면 `/qa-gen`으로 QA TC를 만들 수 있습니다.
+  - GitHub KB는 optional context입니다. KB 없음/gh 미인증/fetch 실패 시 WARN 후 로컬 XLSX 기준으로 진행합니다.
+  - 외부 경로(workspace/ 밖) XLSX도 직접 지정할 수 있습니다. 원본 파일은 읽기 전용으로 처리됩니다.
+
+- **`/qa-gen` Delivery Mode 선택 (Step 0-DM)**
+  - `xlsx_only` / `gsheets_only` / `xlsx_and_gsheets` 3가지 출력 방식을 선택할 수 있습니다.
+  - `gsheets_only`: qa_auditor PASS 후 writeback, 임시 XLSX 삭제.
+  - `xlsx_and_gsheets`: XLSX 경로와 Sheets 기록 범위를 모두 안내합니다.
+
+- **QA-only Google Sheets writeback (`kind: qa`)**
+  - qa_auditor `fail_count=0` 통과 후에만 writeback을 실행합니다.
+  - `kind: qa`를 명시해 QA-only target이 spec 시트로 오인되지 않습니다.
+
+---
+
 ## v1.3.2 (2026-07-23)
 
 ZIP: `spec-harness-kit-v1.3.2-20260723.zip` · 파일 수: 52개
