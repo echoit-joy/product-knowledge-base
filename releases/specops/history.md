@@ -14,10 +14,18 @@ ZIP: `spec-harness-kit-v1.3.2-20260728.zip` · 파일 수: 52개
   - `/spec-flow`, `/project-flow`, `/qa-gen`에서 `xlsx_only` / `gsheets_only` / `xlsx_and_gsheets` 중 선택할 수 있습니다.
   - 중복 안내를 줄이고, 시작 직후 Step 0-DM에서 한 번만 선택하도록 정리했습니다.
 
-- **Google Sheets writeback 안정화**
+- **Google Sheets writeback 안정화 + 한 탭 병합 정책**
   - 여러 `기능정의_` 시트를 병합해 Google Sheets에 씁니다.
   - 실제 행/열 범위를 다시 읽어 검증합니다.
   - QA TC만 Google Sheets에 쓰는 `kind: qa` 흐름도 지원합니다.
+  - QA TC writeback은 기본 한 target tab에 전체를 병합해 기록합니다. URL만 받은 경우 화면명 기반 탭 자동 분리 금지.
+  - dry-run 리포트에 `source_sheets`, `merged_sheet_count`, `merged_row_count`, `target_tab`을 명시합니다.
+
+- **source-backed QA 원칙 추가**
+  - `/qa-gen`은 기능정의서 XLSX 기반 downstream 흐름입니다.
+  - source 기능정의서에 X 버튼이 명시되어 있으면 harness 정책 충돌 여부와 무관하게 TC를 생성합니다.
+  - "harness 정책상 X 버튼 TC 금지인데 제외할까요?" 재질문 금지.
+  - `qa_auditor --source-spec` 옵션: source-backed X 버튼 TC는 FAIL 대신 WARN으로 처리합니다.
 
 - **기능정의서·QA TC 품질 가드 강화**
   - 질문 3개 제한으로 기획 구멍이 남는 문제를 방지합니다.
