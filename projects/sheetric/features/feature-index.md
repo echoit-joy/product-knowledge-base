@@ -3,7 +3,7 @@
 > 현재 어떤 기능이 어느 화면/섹션에 있는지 확인하는 지도입니다.  
 > 결정 이유 → `decisions/` | 상세 동작 → `xlsx/Sheetric 프로젝트.xlsx`
 
-_updated: 2026-07-20 · source: xlsx/Sheetric 프로젝트.xlsx_
+_updated: 2026-08-13 · source: xlsx/Sheetric 프로젝트.xlsx_
 
 ---
 
@@ -30,7 +30,7 @@ _updated: 2026-07-20 · source: xlsx/Sheetric 프로젝트.xlsx_
 | create-menu | 새로 만들기 팝오버 | active | 메인 페이지 | 새로 만들기 팝오버 | 내 드라이브·즐겨찾기 | Sidebar | 기능정의_MainPage | 추가 팝오버 미제공 메뉴 제거.md | 새 노트·새 폴더만 제공. 새 시트 제거됨 |
 | tab-bar | 탭 바 / 탭 관리 | active | 메인 페이지 | Navbar | 노트·내 드라이브 | Navbar | 기능정의_MainPage | 모바일 단일 노트 모드.md | 모바일 정책은 decisions 참조 |
 | home-favorites-section | 메인 즐겨찾기 섹션 | active | 메인 페이지 | 즐겨찾기 | — | — | 기능정의_MainPage | 즐겨찾기 최대 10개 표시.md | 최신 수정일 기준 최대 10개 노출 |
-| home-recent-section | 최근 작업 섹션 | active | 메인 페이지 | 최근 작업 | — | — | 기능정의_MainPage | — | |
+| home-recent-section | 최근 노트 섹션 | active | 메인 페이지 | 최근 노트 | — | — | 기능정의_MainPage | — | 최근 오픈한 노트 기준 최대 20행 노출 |
 | account-settings | 계정 설정 | active | 메인 페이지 | 설정 모달·프로필 메뉴 팝오버 | — | — | 기능정의_MainPage | — | 이름 변경·비밀번호 변경·계정 탈퇴 포함 |
 | favorites-list | 즐겨찾기 리스트 | active | 즐겨찾기 | 파일 리스트·액션 바·브레드크럼 | — | — | 기능정의_즐겨찾기 | — | 다운로드·삭제·즐겨찾기 해제·공유 링크 복사 포함. 기존 XLSX 섹션명 기준 |
 | favorites-tag-filter | 즐겨찾기 태그 필터 | active | 즐겨찾기 | 태그 필터 | — | — | 기능정의_즐겨찾기 | 태그 필터 노출 및 정렬.md | 즐겨찾기 노트의 태그만 노출. 항목 수↓ → 최신 생성순 |
