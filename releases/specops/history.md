@@ -1,6 +1,16 @@
 # SpecOps 릴리즈 이력
 
 ---
+## v1.3.2 (2026-08-19)
+
+ZIP: `spec-harness-kit-v1.3.2-20260819.zip` · 파일 수: 52개
+
+- **GitHub KB 문서 참조 안정성 개선**
+  - `spec-harness-kit` 폴더가 git 저장소가 아니어도 정상으로 처리합니다.
+  - decisions/meetings는 `workspace/reference/existing/`가 아니라 GitHub KB에서 읽는다고 명확히 했습니다.
+  - 기존 프로젝트에서 decisions/meetings를 읽지 못하면 Draft를 만들기 전에 사용자 확인을 받습니다.
+
+---
 
 ## v1.3.2 (2026-07-28)
 
