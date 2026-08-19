@@ -27,6 +27,12 @@ ZIP: `spec-harness-kit-v1.3.2-20260728.zip` · 파일 수: 52개
   - "harness 정책상 X 버튼 TC 금지인데 제외할까요?" 재질문 금지.
   - `qa_auditor --source-spec` 옵션: source-backed X 버튼 TC는 FAIL 대신 WARN으로 처리합니다.
 
+- **GitHub KB fetch 안정성 개선 (Hotfix)**
+  - spec-harness-kit이 git 저장소가 아니어도 GitHub KB를 정상적으로 읽습니다.
+  - `workspace/reference/existing/`에 XLSX만 있어도 정상 상태입니다. decisions/meetings는 GitHub KB에서 fetch합니다.
+  - 기존 프로젝트 decisions/meetings fetch 실패 시 Draft 생성을 보류하고 사용자 확인을 요청합니다.
+  - 신규 프로젝트나 KB 미등록 프로젝트는 KB 없음을 기록하고 계속 진행합니다.
+
 - **기능정의서·QA TC 품질 가드 강화**
   - 질문 3개 제한으로 기획 구멍이 남는 문제를 방지합니다.
   - 삭제 decision을 과하게 해석해 정상 기능까지 막는 문제를 줄였습니다.
