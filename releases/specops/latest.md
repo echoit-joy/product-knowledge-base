@@ -10,81 +10,23 @@ install: CLEAN (package_release.sh 검증 완료)
 
 ## 한 줄 요약
 
-이번 버전은 **Google Sheets로 바로 쓰기**, **QA TC만 단독 생성하기**, **산출물 받는 방식 선택하기**를 더 편하게 만든 버전입니다.  
-처음 쓰는 팀원도 "XLSX만 받을지, Google Sheets에 바로 쓸지, 둘 다 받을지"를 시작할 때 고를 수 있습니다.
+이번 버전은 **모달에 별도 닫기 아이콘이 없다는 설명이 기능정의서/QA TC에 섞여 들어가던 문제**를 막은 hotfix입니다.
 
 ---
 
-## 주요 변경점
+## 이번 버전에서 바뀐 점
 
-### 1. `/qa-gen`으로 QA TC만 따로 만들 수 있어요
+### 1. 모달 산출물에 `X 버튼 없음` 같은 문구가 들어가지 않게 했어요
 
-- GitHub에 프로젝트 문서가 없어도, 로컬 기능정의서 XLSX만 있으면 QA TC를 만들 수 있습니다.
-- GitHub KB가 있으면 참고하고, 없거나 인증이 안 되어 있으면 로컬 XLSX 기준으로 계속 진행합니다.
-- `workspace/` 밖에 있는 XLSX 파일도 경로만 알려주면 읽을 수 있습니다.
-- 원본 XLSX는 읽기 전용으로만 사용하므로 기존 파일이 망가지지 않습니다.
+- 모달 템플릿에서 `X 버튼: 기본 제공 아님`처럼 부재 상태를 설명하는 문구를 제거했습니다.
+- 기능정의서 Property나 QA TC에 `X 버튼 없음`, `X 버튼 기본 제공 아님`, `닫기(X)` 같은 문구가 들어가면 하네스가 FAIL로 잡습니다.
+- 모달의 기본 동작인 **외부 클릭 닫힘**과 **ESC 닫힘**은 그대로 유지됩니다.
 
-### 2. 산출물 받는 방식을 시작할 때 고를 수 있어요
+### 2. 기능정의서와 QA TC 양쪽에서 같은 문제를 잡아요
 
-`/spec-flow`, `/project-flow`, `/qa-gen` 시작 직후 Step 0-DM에서 아래 3가지 중 하나를 선택합니다.
-
-| 선택 | 언제 쓰면 좋은가요? | 결과 |
-|------|----------------------|------|
-| `xlsx_only` | 기존처럼 파일로 확인하고 싶을 때 | XLSX만 생성합니다. 기본값입니다. |
-| `gsheets_only` | 팀 공유용 Google Sheets에만 남기고 싶을 때 | 내부 검증용 임시 XLSX로 검사한 뒤 Google Sheets에만 씁니다. |
-| `xlsx_and_gsheets` | 파일도 받고 Google Sheets에도 남기고 싶을 때 | XLSX를 생성하고, 검증 통과 후 Google Sheets에도 씁니다. |
-
-### 3. Google Sheets 쓰기가 더 안정적이에요 — 한 탭 병합 정책 추가
-
-- 기능정의서가 여러 시트로 나뉘어 있어도 첫 번째 시트만 쓰지 않고, `기능정의_` 시트를 모아 Google Sheets에 씁니다.
-- Google Sheets에 쓴 뒤 실제 행/열 범위를 다시 읽어 검증합니다.
-- QA TC만 Google Sheets에 쓰는 경우도 지원합니다.
-- **QA TC writeback은 기본 한 target tab에 전체를 병합해 기록합니다.** URL만 받은 경우 화면명 기반 탭을 자동으로 분리하거나 생성하지 않습니다.
-- 팀원은 Google Cloud OAuth client를 직접 만들 필요가 없습니다. 관리자가 공유한 `client_secret` JSON을 한 번 등록하면 됩니다.
-
-### 3-1. source 기능정의서에 있는 동작은 그대로 TC에 넣어요
-
-- `/qa-gen`은 이미 작성된 기능정의서 XLSX를 기반으로 QA TC를 만드는 흐름입니다.
-- source 기능정의서에 X 버튼 클릭이 명시되어 있으면, harness 정책과 충돌하더라도 재질문 없이 TC를 생성합니다.
-- `qa_auditor --source-spec` 옵션을 사용하면 source-backed X 버튼 TC는 FAIL 대신 WARN으로 처리됩니다.
-
-
-### 3-2. GitHub KB에서 프로젝트 문서를 읽어요 — 프로젝트 문서 참조 안정성 개선
-
-- `spec-harness-kit` 폴더가 git 저장소가 아니어도 정상입니다. Git 저장소 여부와 GitHub KB 읽기는 무관합니다.
-- `workspace/reference/existing/` 폴더에 XLSX만 있어도 정상입니다. decisions/meetings는 이 폴더가 아니라 GitHub KB에서 읽습니다.
-- 기존 프로젝트에서 decisions/meetings를 읽지 못하면 조용히 넘어가지 않고 사용자에게 확인을 요청합니다.
-  - 신규 프로젝트 또는 KB 미등록 프로젝트는 KB 없음을 기록하고 계속 진행합니다.
-  - `global/glossary.md` 같은 선택적 참고 문서는 실패해도 PASS_WITH_REVIEW로 계속 진행합니다.
-
-### 4. AI가 놓치기 쉬운 기획 품질 이슈를 더 잘 잡아요
-
-- 질문이 많을 때 3개만 묻고 바로 Draft로 넘어가는 문제를 방지합니다.
-- 삭제된 기능을 너무 넓게 해석해 정상 기능까지 막는 문제를 줄였습니다.
-  - 예: "파일 기능 삭제" 때문에 "폴더 색상 변경"까지 막히지 않도록 보정
-- 공통 UI 용어는 `global/glossary.md`를 참고합니다.
-  - Toast, Modal, Pop-up, Popover, Button 상태값처럼 흔들리기 쉬운 표현을 맞춥니다.
-- Action 컬럼에는 동작만 쓰도록 검증합니다.
-  - `(변경 사항 미적용)`, `변경 전 상태로 유지` 같은 결과 설명이 Action에 들어가면 FAIL 처리합니다.
-- Modal의 별도 닫기 아이콘 부재 상태를 기능정의서/QA TC에 쓰지 않습니다.
-  - 외부 클릭과 ESC 닫힘은 기본 동작으로 유지합니다.
-  - 별도 닫기 아이콘 동작은 요구사항/reference/decision에 명시된 경우에만 별도 확인합니다.
-
-
-### 4-1. 모달 닫기 문구가 기능정의서에 섞이지 않게 보정했어요
-
-- 모달에 별도 닫기 아이콘이 없다는 설명을 기능정의서 Property에 쓰지 않도록 템플릿을 정리했습니다.
-- `X 버튼 없음`, `X 버튼 기본 제공 아님` 같은 부재 설명이 산출물에 들어가면 하네스가 FAIL로 잡습니다.
-- 외부 클릭과 ESC로 모달이 닫히는 기본 동작은 그대로 유지합니다.
-
-### 5. 실행 중 헷갈리던 부분을 정리했어요
-
-- 한글 decision 파일명을 GitHub에서 읽을 때 404가 나던 가능성을 줄였습니다.
-- 새 `/spec-flow` / `/project-flow` 시작 시 이전 `.reports/latest/` 내용을 정리하고 이번 실행 결과만 남깁니다.
-- Google OAuth 인증 안내를 보강했습니다.
-  - Finder에서 파일 경로는 **Option+Command+C**로 복사할 수 있습니다.
-  - 터미널이나 Claude 입력창에는 **Option+Command+V**로 붙여넣을 수 있습니다.
-  - Google 인증 화면에서 "확인되지 않은 앱" 또는 "테스트 앱" 경고가 나오면 승인된 Test user 계정으로 **[계속]**을 눌러 진행합니다.
+- 기능정의서 검증기: `validate_spec_xlsx.py v1.5.3`
+- QA TC 검증기: `qa_auditor.py v0.5.9`
+- 새로 생성되는 산출물에 닫기 아이콘 관련 부재 설명이 반복해서 들어가는 문제를 방지합니다.
 
 ---
 
@@ -94,26 +36,13 @@ install: CLEAN (package_release.sh 검증 완료)
 2. 기존 `spec-harness-kit/` 폴더를 새 ZIP으로 교체
 3. `bash install.sh` 실행
 4. Claude Code 재시작
-5. Google Sheets writeback을 사용할 팀원만 최초 1회 OAuth JSON 등록
-
-```bash
-bash scripts/setup_gsheets_oauth.sh ~/Downloads/client_secret_...apps.googleusercontent.com.json
-```
-
-> 팀원이 Google Cloud OAuth client를 직접 만들 필요는 없습니다.  
-> `client_secret` JSON은 승인된 팀원에게만 공유하고, GitHub/ZIP/workspace에는 넣지 마세요.  
-> `token.json`은 절대 공유하지 마세요.  
-> Google Sheets 자체 편집 권한은 별도로 필요합니다.  
-> **workspace/spec/, workspace/qa/ 내 기존 XLSX는 삭제되지 않습니다.**  
-> 새 ZIP을 이전 폴더 위치에 압축 해제하면 파일이 덮어써질 수 있으니 주의하세요.
 
 ---
 
-## 주의사항
+## 참고
 
-- 이전 버전 ZIP과 함께 사용하지 마세요.
-- `install.sh` 실행 전 Claude Code가 실행 중이면 종료 후 실행하세요.
-- GitHub KB write 기능(`/project-flow`)은 `gh auth login`이 필요합니다.
+- `v1.3.2-20260819`의 GitHub KB fetch 안정성 개선은 그대로 유지됩니다.
+- `v1.3.2-20260728`의 `/qa-gen`, Google Sheets writeback, delivery mode 기능도 그대로 유지됩니다.
 
 ---
 
