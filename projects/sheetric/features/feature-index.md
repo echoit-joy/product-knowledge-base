@@ -29,7 +29,7 @@ _updated: 2026-08-25 · source: xlsx/Sheetric 프로젝트.xlsx · second-phase 
 | feature_slug | 기능명 | 상태 | primary_screen | primary_section | related_screens | related_sections | source_xlsx | related_decisions | note |
 |---|---|---|---|---|---|---|---|---|---|
 | email-auth | 이메일 로그인 / 회원가입 | active | 로그인 | 이메일·비밀번호·로그인·회원가입 | 회원가입 | 비밀번호 재설정·인증 메일 | 기능정의_회원가입, 로그인 | — | 이메일 인증, 비밀번호 찾기·재설정 포함 |
-| sidebar-nav | 사이드바 네비게이션 | active | 메인 페이지 | Sidebar | 즐겨찾기·내 드라이브·공유 드라이브·휴지통·워크스페이스·Altio | Sidebar | 기능정의_MainPage·기능정의_2-1차·기능정의_2-2차 | 파일 업로드 및 미리보기 제공.md · 키보드 포커스 및 단축키.md | 2차 메뉴와 파일·폴더 업로드 진입점 포함 |
+| sidebar-nav | 사이드바 네비게이션 | active | 메인 페이지 | Sidebar | 새로 만들기·즐겨찾기·내 드라이브·공유 드라이브·워크스페이스·Altio·휴지통 | Sidebar | 기능정의_MainPage·기능정의_2-1차·기능정의_2-2차 | 파일 업로드 및 미리보기 제공.md · 키보드 포커스 및 단축키.md | 기능정의서에 명시된 순서로 메뉴 노출 |
 | create-menu | 새로 만들기 팝오버 | active | 메인 페이지 | 새로 만들기 팝오버 | 내 드라이브·즐겨찾기 | Sidebar | 기능정의_MainPage·기능정의_2-2차 | 파일 업로드 및 미리보기 제공.md | 새 노트·새 폴더·파일 업로드·폴더 업로드 제공 |
 | tab-bar | 탭 바 / 탭 관리 | active | 메인 페이지 | Navbar | 노트·내 드라이브 | Navbar | 기능정의_MainPage | 모바일 단일 노트 모드.md | 모바일 정책은 decision 참조 |
 | home-favorites-section | 메인 즐겨찾기 섹션 | active | 메인 페이지 | 즐겨찾기 | — | — | 기능정의_MainPage | 즐겨찾기 최대 10개 표시.md | 최신 수정일 기준 최대 10개 노출 |
