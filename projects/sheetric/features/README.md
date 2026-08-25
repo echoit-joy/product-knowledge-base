@@ -24,7 +24,7 @@ AI는 기존 기능을 추가하거나 수정할 때 feature-index를 보고 다
 - 어느 화면과 섹션에 연결되어 있는지
 - 상태가 active, experimental, deprecated, archived 중 무엇인지
 - 관련 decision이 있는지
-- 기존 기능정의서에서 어떤 범위를 봐야 하는지
+- 현재 기능정의서에서 어떤 범위를 봐야 하는지
 
 ## 갱신 원칙
 
