@@ -3,7 +3,7 @@
 > 현재 어떤 기능이 어느 화면/섹션에 있는지 확인하는 지도입니다.  
 > 결정 이유 → `decisions/` | 상세 동작 → `xlsx/Sheetric 프로젝트.xlsx`
 
-_updated: 2026-08-25 · source: xlsx/Sheetric 프로젝트.xlsx · second-phase version: 0.0.2_
+_updated: 2026-08-27 · source: xlsx/Sheetric 프로젝트.xlsx + 2026-08-27 누적 QA/Feature·Figma 요청 · second-phase version: 0.0.2_
 
 ---
 
@@ -43,7 +43,9 @@ _updated: 2026-08-25 · source: xlsx/Sheetric 프로젝트.xlsx · second-phase 
 | tag-management | 태그 관리 모달 | active | 즐겨찾기 | 태그 관리 모달 | 내 드라이브·노트 | 태그 관리 모달 | 기능정의_즐겨찾기·기능정의_2-1차 | — | Altio 녹음 추천 태그와 동기화 |
 | drive-list | 내 드라이브 파일 리스트 | active | 내 드라이브 | 파일 리스트·액션 바·브레드크럼 | — | — | 기능정의_내드라이브·기능정의_2-2차 | — | 폴더·노트 생성, 파일·폴더 업로드, 다운로드·삭제·이동·공유 |
 | folder-tree | 폴더 트리 | active | 내 드라이브 | 좌측 패널 | 공유 드라이브 | 공유 폴더 트리 | 기능정의_내드라이브·기능정의_2-1차 | 폴더 트리 동작 정책.md · 폴더 공유 권한 전파.md | 공유 폴더 하위 권한 전파와 개별 제외 포함 |
+| mobile-shared-folder-navigation | 모바일 공유 폴더 탐색 | experimental | 공유 드라이브 | 모바일 폴더 트리 | 공유 폴더 | 햄버거 버튼·폴더 계층 패널 | — | — | 햄버거 버튼으로 공유 폴더 계층 패널 오픈 (Design #418) |
 | shared-drive | 공유 드라이브 | active | 공유 드라이브 | 리스트·폴더 트리·컨텍스트 메뉴 | 노트 | 읽기 전용 공유 항목 | 기능정의_2-1차 | 폴더 공유 권한 전파.md | 초대받은 노트·폴더 조회, 즐겨찾기, 사본 생성, 공유 해제 포함 |
+| shared-deleted-item-download | 삭제 예정 공유 항목 다운로드 | experimental | 공유 드라이브 | 파일 리스트·액션 바 | 노트 | 삭제 예정 안내 | — | 삭제된 노트 링크 접근 처리.md | 원본이 휴지통 상태인 동안 목록 유지·선택·다운로드 허용, 영구 삭제 시 목록 제거 (Planning #598) |
 | sharing-permissions | 사용자·그룹 공유 및 권한 관리 | active | 공유 모달 | 사용자 검색·초대·공유 대상 리스트 | 노트·폴더·보드 | 공유 모달 | 기능정의_2-1차·기능정의_2-2차 | 폴더 공유 권한 전파.md | 중복 사용자는 한 번만 표시, 소유자 최상단, 일반 공유자는 최신 추가순 |
 | sharing-groups | 공유 그룹 관리 | active | 공유 모달 | 그룹 저장·관리 모달 | AI 검색 설정 | 그룹 선택 | 기능정의_2-1차·기능정의_2-2차 | AI 검색 권한과 출처 열람.md | 그룹 구성원 변경 시 현재 구성원 기준 적용 |
 | ownership-transfer | 소유권 이전 | active | 공유 모달 | 이전 요청·취소·수락·거절 | 보드 공유 모달 | 소유권 이전 | 기능정의_2-1차·기능정의_2-2차 | 소유권 이전 요청 취소 이메일 미발송.md | 대기 상태와 이메일 정책 포함 |
@@ -55,9 +57,13 @@ _updated: 2026-08-25 · source: xlsx/Sheetric 프로젝트.xlsx · second-phase 
 | note-header | 노트 헤더 액션 | active | 노트 | 노트 헤더·버전 기록 팝오버 | — | — | 기능정의_노트 | 새 노트 제목 자동 포커스.md | 즐겨찾기·공유·더보기·오프라인 포함 |
 | note-version-history | 버전 기록 | active | 노트 | 버전 기록·프리뷰 | — | — | 기능정의_노트 | 버전 기록 프리뷰 읽기 전용.md | 수동·Altio 자동 저장 버전 |
 | note-share | 노트·폴더 공유 | active | 노트 | 노트 헤더·공유 모달 | 내 드라이브·공유 드라이브 | 공유 액션 | 기능정의_노트·기능정의_2-1차 | 폴더 공유 권한 전파.md · 공유 링크 별도 읽기 전용 URL.md | 초대 공유와 공개 링크 공유 포함 |
+| mobile-note-share-entry | 모바일 노트 공유 진입 | experimental | 노트 | 모바일 더보기 바텀시트 | 공유 모달 | 공유 | — | — | 더보기 바텀시트 최상단에 공유 메뉴 노출 (Feature HDN9MD) |
 | note-download | 노트 다운로드 | active | 노트 | 노트 액션 | — | — | 기능정의_노트 | 노트 다운로드 Markdown 정책.md | 개별 `.md`, 다중 ZIP 다운로드 |
 | note-mentions | 노트 내 노트·파일 연결 | active | 노트 | `@` 멘션·연결 문서 | Altio | 검색 컨텍스트 | 기능정의_2-2차 | AI 검색 권한과 출처 열람.md | 연결 문서 검색 시 문서별 권한 확인, 1단계 연결 범위 적용 |
 | altio-assistant | Altio AI 어시스턴트 | active | 노트 | Altio 인라인·사이드바 | Altio | 대화·출처 | 기능정의_노트·기능정의_2-1차·기능정의_2-2차 | AI 검색 권한과 출처 열람.md | 문서 컨텍스트·출처 열람·답변 복사·재생성 포함 |
+| altio-attachment-lifecycle | Altio 첨부파일 생명주기 | experimental | Altio Sidebar | 채팅 입력창·첨부파일 칩 | Altio | 답변 로딩 | 기능정의_2-1차 | — | OS 파일 드래그 첨부, 업로드 중 제거, 처리 완료 후 자동 답변, 재접속 시 미전송 첨부 초기화, 첨부 이미지 전체 분석 (QA D4JDCW·SNPJPH·J24V9U·Y9VS8Y / Feature T6JBMP) |
+| altio-conversation-continuity | Altio 대화 맥락 연속 처리 | experimental | Altio Sidebar | AI 답변·채팅 입력창 | Altio | 대화방 | — | — | 작업 확인 질문 다음의 긍정 응답은 직전 의도와 대상을 유지하여 실행 (QA URBNPT) |
+| altio-search-context-quality | Altio 검색 식별·최신성 | experimental | Altio Sidebar | 검색 결과·AI 답변 | Altio | 출처·태그 | — | AI 검색 권한과 출처 열람.md | 동명 노트는 경로·최근 수정일로 식별하고 삭제된 태그는 검색·답변에서 제외 (QA XMVTSG·FKN8SR) |
 | altio-recording | Altio 녹음 | active | 노트 | 녹음 UI·요약·스크립트·메모 | 태그 관리 | 추천 태그 | 기능정의_2-1차 | — | 일시정지·재개·백그라운드 유지·변환·실패 처리 포함 |
 | ai-search-permissions | AI 검색 설정 | active | 공유 모달 | AI 검색 설정 모달 | Altio·연결 문서 | 검색 결과·원문 출처 | 기능정의_2-2차 | AI 검색 권한과 출처 열람.md | 직접 공유 권한과 분리된 읽기 전용 원문 접근 |
 | file-viewer | 파일 업로드 / 미리보기 | active | 내 드라이브 | 파일·폴더 업로드·파일 미리보기 | 노트 | Markdown 편집 | 기능정의_2-2차 | 파일 업로드 및 미리보기 제공.md | 지원 파일 미리보기, 미지원·대용량 안내, Markdown 노트 편집 포함 |
