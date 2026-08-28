@@ -3,7 +3,7 @@
 > 현재 어떤 기능이 어느 화면/섹션에 있는지 확인하는 지도입니다.  
 > 결정 이유 → `decisions/` | 상세 동작 → `xlsx/Sheetric 프로젝트.xlsx`
 
-_updated: 2026-08-27 · source: xlsx/Sheetric 프로젝트.xlsx + 2026-08-27 누적 QA/Feature·Figma 요청 · second-phase version: 0.0.2_
+_updated: 2026-08-28 · source: xlsx/Sheetric 프로젝트.xlsx + 2026-08-27 누적 QA/Feature·Figma 요청 · second-phase version: 0.0.2_
 
 ---
 
@@ -34,7 +34,7 @@ _updated: 2026-08-27 · source: xlsx/Sheetric 프로젝트.xlsx + 2026-08-27 누
 | create-menu | 새로 만들기 팝오버 | active | 메인 페이지 | 새로 만들기 팝오버 | 내 드라이브·즐겨찾기 | Sidebar | 기능정의_MainPage·기능정의_2-2차 | 파일 업로드 및 미리보기 제공.md | 새 노트·새 폴더·파일 업로드·폴더 업로드 제공 |
 | tab-bar | 탭 바 / 탭 관리 | active | 메인 페이지 | Navbar | 노트·내 드라이브 | Navbar | 기능정의_MainPage | 모바일 단일 노트 모드.md | 모바일 정책은 decision 참조 |
 | home-favorites-section | 메인 즐겨찾기 섹션 | active | 메인 페이지 | 즐겨찾기 | — | — | 기능정의_MainPage | 즐겨찾기 최대 10개 표시.md | 최신 수정일 기준 최대 10개 노출 |
-| home-recent-section | 최근 노트 섹션 | active | 메인 페이지 | 최근 노트 | — | — | 기능정의_MainPage | — | 최근 오픈한 노트 기준 최대 20행 노출 |
+| home-recent-section | 최근 작업 섹션 | active | 메인 페이지 | 최근 작업 | — | — | 기능정의_MainPage·기능정의_2-1차 | — | 최근 수정한 내 노트 기준 최대 20행 노출, 공유 드라이브 노트·파일·폴더 제외 |
 | account-settings | 계정 설정 | active | 메인 페이지 | 설정 모달·프로필 메뉴 팝오버 | — | — | 기능정의_MainPage | — | 이름·비밀번호 변경, 계정 탈퇴 포함 |
 | toast-deduplication | 동일 토스트 중복 방지 | active | 공통 | 토스트 | 전체 화면 | 완료·오류 안내 | — | — | 같은 종류의 토스트가 표시 중이면 반복 클릭·동일 오류로 새 토스트를 쌓지 않고 기존 1개 유지 (Feature_done S_Dev_080 / Bug_done PC_COM_30) |
 | favorites-list | 즐겨찾기 리스트 | active | 즐겨찾기 | 파일 리스트·액션 바·브레드크럼 | — | — | 기능정의_즐겨찾기 | — | 다운로드·삭제·즐겨찾기 해제·공유 포함 |
