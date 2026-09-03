@@ -2,6 +2,32 @@
 
 ---
 ## v1.3.3 (2026-08-24)
+## v1.3.4 (2026-09-03)
+
+ZIP: `spec-harness-kit-v1.3.4-20260903.zip` · 파일 수: 54개
+
+### 1. `/kb-ask` — GitHub KB 일반 Q&A 커맨드 신규 추가
+
+- 입력 키워드가 `projects/` 목록의 실제 key로 확인되면 `projects/{key}/`를 조회합니다.
+- 프로젝트명이 확인되지 않으면 `projects/` 목록에서 키워드 매칭 후 자동 답변합니다.
+- 1개 매칭 → 자동 답변, 여러 개 매칭 → 사용자 선택, 0개 → KB 미발견 명시.
+
+### 2. 조회 범위
+
+- `global/glossary.md`, `global/product-rules.md`
+- `projects/{key}/project-context.md`
+- `projects/{key}/features/feature-index.md`
+- `projects/{key}/decisions/` — 전수 읽기
+- `meetings/` — 키워드 후보 선별
+- `projects/{key}/xlsx/` — 수치·제한값·스펙 확인 질문 시만
+
+### 3. 답변 형식 및 금지 행동
+
+- 로컬 폴더 기준 "정보 없음" 답변 금지
+- "GitHub를 확인할까요?" 식 질문 금지 — 자동 조회
+- 답변에 `[답변]`, `[근거]` 출처 명시 필수
+
+---
 
 ZIP: `spec-harness-kit-v1.3.3-20260824.zip` · 파일 수: 52개
 
