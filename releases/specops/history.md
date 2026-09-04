@@ -1,6 +1,48 @@
 # SpecOps 릴리즈 이력
 
 ---
+## v1.3.5 (2026-09-04)
+
+ZIP: `spec-harness-kit-v1.3.5-20260904.zip` · 파일 수: 54개
+
+### 1. QA TC 생성 시 GitHub KB context 반영 강화
+
+기능정의서에 적힌 내용만 보지 않고, GitHub에 쌓아둔 decisions/features도 함께 참고해 권한, 예외조건, 제한값, 삭제/공유 정책 관련 TC를 더 넓게 만듭니다.
+
+- project_key가 확인되면 `/qa-gen`과 자연어 QA 요청 모두에서 GitHub KB를 자동 참조합니다.
+  - `project-context.md`, `feature-index.md`, `decisions/` 전수, `meetings/` 관련 후보를 QA 생성 전 fetch.
+- decisions/features에서 확인된 권한·삭제·공유·제한값·예외조건·정책은 엣지케이스 TC와 비고에 반영합니다.
+- QA Draft 생성 전 `[QA-gen KB 참조 결과]` 요약을 채팅에 출력합니다.
+- "로컬 XLSX만 기준"은 project_key가 없거나 GitHub KB fetch 실패 시에만 허용합니다.
+
+### 2. 자연어 QA 생성 요청 자동 라우팅
+
+`/qa-gen`을 직접 입력하지 않아도 "QA 리스트", "QA TC", "테스트 케이스", "test list" 같은 표현이 있고 생성·써줘 의도가 있으면 자동으로 `/qa-gen` 흐름으로 진입합니다.
+
+- CLAUDE.md, SKILL.md, qa-gen.md에 라우팅 규칙을 명시했습니다.
+- 자연어 요청과 `/qa-gen` 직접 입력은 동일하게 처리됩니다.
+
+### 3. Google Sheets writeback 오판 방지
+
+- "MCP가 없어서 Google Sheets에 직접 쓸 수 없습니다" 답변 금지.
+  - SpecOps Google Sheets writeback은 MCP가 아니라 `scripts/gsheets_writeback.py` + OAuth 기반입니다.
+- "비공개 문서라 curl/브라우저 401" 이유로 포기 금지.
+  - OAuth writeback은 curl/브라우저 인증과 무관하게 진행합니다.
+- 붙여넣기용 TSV로 대체 제안 금지.
+
+### 4. 잘못된 셀 주소 자동 보정
+
+- 사용자가 `663A`처럼 행 번호를 앞에 입력하면 `A663`으로 자동 보정하고 짧게 고지합니다.
+- 예: `"663A → A663으로 이해했습니다."`
+
+### 5. start_cell 헤더 포함 안내 강화
+
+- `start_cell`은 헤더 행을 포함한 시작 셀입니다.
+- `A663`을 지정하면 663행에 헤더가 기록되고 데이터는 664행부터 시작됩니다.
+- dry-run 미리보기에서 이를 명확히 표시합니다.
+- "기존 헤더 아래 데이터만 추가"인지 애매하면 확인 질문합니다.
+
+---
 ## v1.3.4 (2026-09-03)
 
 ZIP: `spec-harness-kit-v1.3.4-20260903.zip` · 파일 수: 54개
