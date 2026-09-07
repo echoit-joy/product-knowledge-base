@@ -34,6 +34,19 @@
 - `features/feature-index.md`는 현재 기능의 지도입니다. 결정 이유를 길게 쓰지 않습니다.
 - 현재 기능정의서 XLSX는 상세 기준입니다. 기능 ID, L10N ID, QA 기준과 충돌하지 않도록 AI가 참고합니다.
 
+## 커밋 메시지 규칙
+
+이 저장소의 커밋 메시지는 아래 형식으로 통일합니다.
+
+```
+docs: update sheetric decision - <결정 내용>
+docs: update sheetric feature index - <변경 내용>
+docs: update specops release notes - v1.3.5
+```
+
+- 항상 `docs:`로 시작하고, 뒤에 어떤 문서를 바꿨는지(`sheetric decision`, `sheetric feature index`, `specops release notes` 등)와 내용을 붙입니다.
+- `Sheetric: ...`, `docs(sheetric): ...`, `docs: ... (Sheetric)`처럼 접두사를 섞어 쓰지 않습니다.
+
 ## AI가 참고하는 순서
 
 AI는 보통 다음 순서로 문서를 봅니다.
