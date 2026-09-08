@@ -3,7 +3,7 @@
 > 현재 어떤 기능이 어느 화면/섹션에 있는지 확인하는 지도입니다.  
 > 결정 이유 → `decisions/` | 상세 동작 → `xlsx/Sheetric 프로젝트.xlsx`
 
-_updated: 2026-09-04 · source: xlsx/Sheetric 프로젝트.xlsx + 2026-08-27 누적 QA/Feature·Figma 요청 · second-phase version: 0.0.2 (drive-search-modal 삭제 예정 항목 제외, 공개 링크 접근자 권한 범위, 회원 탈퇴·폴더 공유 삭제 시 권한 처리 반영)_
+_updated: 2026-09-08 · source: xlsx/Sheetric 프로젝트.xlsx + 2026-08-27 누적 QA/Feature·Figma 요청 · second-phase version: 0.0.2 (drive-search-modal 삭제 예정 항목 제외, 공개 링크 접근자 권한 범위, 회원 탈퇴·폴더 공유 삭제 시 권한 처리 반영) · 2026-09-08 altio-attachment-lifecycle 외부 파일 붙여넣기 첨부 지원 추가_
 
 ---
 
@@ -72,7 +72,7 @@ _updated: 2026-09-04 · source: xlsx/Sheetric 프로젝트.xlsx + 2026-08-27 누
 | note-url-embed | 노트 URL 링크·임베드 | active | 노트 | 노트 에디터·URL 붙여넣기 팝오버 | — | — | — | URL 붙여넣기 방식 선택.md | URL 직접 입력 시 OG 이미지·제목·설명·주소를 포함한 임베드 표시, 붙여넣기 시 URL 또는 임베드 방식 선택 (Feature_done 65S7AP·PZJEZU) |
 | note-mentions | 노트 내 노트·파일 연결 | active | 노트 | `@` 멘션·연결 문서 | 공유 노트·Altio | 링크 접근·검색 컨텍스트 | 기능정의_2-2차 | AI 검색 권한과 출처 열람.md · 공유 링크 별도 읽기 전용 URL.md | 연결 문서 검색 시 문서별 권한 확인, 1단계 연결 범위 적용. 접근 권한 없는 노트 링크 클릭 시 접근 오류 토스트 노출 |
 | altio-assistant | Altio AI 어시스턴트 | active | 노트 | Altio 인라인·사이드바 | Altio | 대화·출처 | 기능정의_노트·기능정의_2-1차·기능정의_2-2차 | AI 검색 권한과 출처 열람.md | 문서 컨텍스트·출처 열람·답변 복사·재생성 포함 |
-| altio-attachment-lifecycle | Altio 첨부파일 생명주기 | experimental | Altio Sidebar | 채팅 입력창·첨부파일 칩 | Altio | 답변 로딩 | 기능정의_2-1차 | — | OS 파일 드래그 첨부, 업로드 중 제거, 처리 완료 후 자동 답변, 재접속 시 미전송 첨부 초기화, 첨부 이미지 전체 분석 (QA D4JDCW·SNPJPH·J24V9U·Y9VS8Y / Feature T6JBMP) |
+| altio-attachment-lifecycle | Altio 첨부파일 생명주기 | experimental | Altio Sidebar | 채팅 입력창·첨부파일 칩 | Altio | 답변 로딩 | 기능정의_2-1차 | Altio 인풋 영역 외부 파일 붙여넣기 지원.md | OS 파일 드래그 첨부, 업로드 중 제거, 처리 완료 후 자동 답변, 재접속 시 미전송 첨부 초기화, 첨부 이미지 전체 분석 (QA D4JDCW·SNPJPH·J24V9U·Y9VS8Y / Feature T6JBMP). 외부에서 복사한 파일/사진을 입력창에 붙여넣기(Ctrl+V) 시에도 동일하게 첨부 처리 |
 | altio-conversation-continuity | Altio 대화 맥락 연속 처리 | experimental | Altio Sidebar | AI 답변·채팅 입력창 | Altio | 대화방 | — | — | 작업 확인 질문 다음의 긍정 응답은 직전 의도와 대상을 유지하여 실행 (QA URBNPT) |
 | altio-search-context-quality | Altio 검색 식별·최신성 | experimental | Altio Sidebar | 검색 결과·AI 답변 | Altio | 출처·태그 | — | AI 검색 권한과 출처 열람.md | 동명 노트는 경로·최근 수정일로 식별하고 삭제된 태그는 검색·답변에서 제외 (QA XMVTSG·FKN8SR) |
 | altio-session-persistence | Altio 화면·대화 상태 유지 | active | Altio Sidebar | 사이드바 상태·대화 | Altio | 탭·최근 대화 | — | — | 마지막 사이드바 너비와 Altio 탭·기존 대화는 새로고침·재로그인 후에도 유지하되, 전송하지 않은 첨부파일은 유지하지 않음 (Bug_done T4C4DN·JWPN8D / QA J24V9U) |
