@@ -1,6 +1,23 @@
 # SpecOps 릴리즈 이력
 
 ---
+## v1.3.7 (2026-09-10)
+
+ZIP: `spec-harness-kit-v1.3.7-20260910.zip` · 파일 수: 60개
+
+> v1.3.7은 라이브 기능정의서 Google Sheets 자동화(Phase 1/2/3)를 목표로 하는 릴리즈입니다. 이번 배포는 그중 **Phase 1 보강(다중 프로젝트 지원)**까지 반영합니다. Phase 2(체크박스 → GitHub Issue 자동화), Phase 3(예약 루틴 + approve 루프)은 아직 로드맵 문서화 단계입니다.
+
+### 1. `/spec-sync` — 여러 프로젝트 지원
+
+`/spec-sync`가 이제 여러 프로젝트(Sheetric, PulseDesk 등)를 구분해서 처리합니다.
+
+- 어떤 프로젝트에 반영할지 확실하지 않으면 먼저 물어봅니다. 짐작으로 진행하지 않습니다.
+- 프로젝트별 라이브 시트 주소는 로컬 설정 파일에 저장해두고 재사용할 수 있습니다.
+- 반영 전 미리보기에 어떤 프로젝트, 어떤 시트인지 함께 표시됩니다.
+
+> 자세한 동작 방식: `claude-config/commands/spec-sync.md`, `skills/spec-harness/references/gsheets-patch-rules.md`
+
+---
 ## v1.3.6 (2026-09-10)
 
 ZIP: `spec-harness-kit-v1.3.6-20260910.zip` · 파일 수: 59개
