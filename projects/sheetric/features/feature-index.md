@@ -3,7 +3,7 @@
 > 현재 어떤 기능이 어느 화면/섹션에 있는지 확인하는 지도입니다.  
 > 결정 이유 → `decisions/` | 상세 동작 → `xlsx/Sheetric 프로젝트.xlsx`
 
-_updated: 2026-09-09 · source: xlsx/Sheetric 프로젝트.xlsx + 2026-08-27 누적 QA/Feature·Figma 요청 · second-phase version: 0.0.2 (drive-search-modal 삭제 예정 항목 제외, 공개 링크 접근자 권한 범위, 회원 탈퇴·폴더 공유 삭제 시 권한 처리 반영) · 2026-09-08 altio-attachment-lifecycle 외부 파일 붙여넣기 첨부 지원 추가 · 2026-09-09 note-share 파일 공유 예외(소유권 이전 미노출·알림 메일 문구), Altio 녹음 블록 6dot 메뉴 예외 반영_
+_updated: 2026-09-10 · source: xlsx/Sheetric 프로젝트.xlsx + 2026-08-27 누적 QA/Feature·Figma 요청 · second-phase version: 0.0.2 (drive-search-modal 삭제 예정 항목 제외, 공개 링크 접근자 권한 범위, 회원 탈퇴·폴더 공유 삭제 시 권한 처리 반영) · 2026-09-08 altio-attachment-lifecycle 외부 파일 붙여넣기 첨부 지원 추가 · 2026-09-09 note-share 파일 공유 예외(소유권 이전 미노출·알림 메일 문구), Altio 녹음 블록 6dot 메뉴 예외 반영 · 2026-09-10 Altio 녹음 요약·스크립트 편집 가능 반영_
 
 ---
 
@@ -76,7 +76,7 @@ _updated: 2026-09-09 · source: xlsx/Sheetric 프로젝트.xlsx + 2026-08-27 누
 | altio-conversation-continuity | Altio 대화 맥락 연속 처리 | experimental | Altio Sidebar | AI 답변·채팅 입력창 | Altio | 대화방 | — | — | 작업 확인 질문 다음의 긍정 응답은 직전 의도와 대상을 유지하여 실행 (QA URBNPT) |
 | altio-search-context-quality | Altio 검색 식별·최신성 | experimental | Altio Sidebar | 검색 결과·AI 답변 | Altio | 출처·태그 | — | AI 검색 권한과 출처 열람.md | 동명 노트는 경로·최근 수정일로 식별하고 삭제된 태그는 검색·답변에서 제외 (QA XMVTSG·FKN8SR) |
 | altio-session-persistence | Altio 화면·대화 상태 유지 | active | Altio Sidebar | 사이드바 상태·대화 | Altio | 탭·최근 대화 | — | — | 마지막 사이드바 너비와 Altio 탭·기존 대화는 새로고침·재로그인 후에도 유지하되, 전송하지 않은 첨부파일은 유지하지 않음 (Bug_done T4C4DN·JWPN8D / QA J24V9U) |
-| altio-recording | Altio 녹음 | active | 노트 | 녹음 UI·요약·스크립트·메모 | 태그 관리 | 추천 태그·6dot 블록 팝오버 | 기능정의_2-1차 | 노트 블록 전환 메뉴.md | 일시정지·재개·백그라운드 유지·변환·실패 처리 포함. 생성된 Altio 녹음 블록의 6dot 팝오버에는 `삭제`만 노출하고 `전환`·`색`은 미노출 |
+| altio-recording | Altio 녹음 | active | 노트 | 녹음 UI·요약·스크립트·메모 | 태그 관리 | 추천 태그·6dot 블록 팝오버 | 기능정의_2-1차 | 노트 블록 전환 메뉴.md · Altio 녹음 요약 및 스크립트 편집.md | 일시정지·재개·백그라운드 유지·변환·실패 처리 포함. 생성된 Altio 녹음 블록의 6dot 팝오버에는 `삭제`만 노출하고 `전환`·`색`은 미노출. 요약과 스크립트 내용은 사용자가 직접 수정할 수 있으며 수정 후 다시 열람해도 유지 |
 | ai-search-permissions | AI 검색 설정 | active | 공유 모달 | AI 검색 설정 모달 | Altio·연결 문서 | 검색 결과·원문 출처 | 기능정의_2-2차 | AI 검색 권한과 출처 열람.md | 직접 공유 권한과 분리된 읽기 전용 원문 접근 |
 | file-viewer | 파일 업로드 / 미리보기 | active | 내 드라이브 | 파일·폴더 업로드·파일 미리보기 | 노트 | Markdown 편집 | 기능정의_2-2차 | 파일 업로드 및 미리보기 제공.md | 지원 파일 미리보기, 미지원·대용량 안내, Markdown 노트 편집 포함. 로컬 파일/폴더를 사이드바 폴더 트리 또는 테이블로 드래그 앤 드롭해 업로드하는 것도 지원(공유 드라이브 화면은 읽기 전용이라 비활성) (main_01_65) |
 | board-workspace | 워크스페이스 / 보드 목록 | active | 워크스페이스 | 보드 생성·목록·검색·정렬 | 메인 페이지 | Sidebar | 기능정의_2-2차 | — | 개인·공유 보드 표시 및 관리 |
