@@ -1,6 +1,28 @@
 # SpecOps 릴리즈 이력
 
 ---
+## v1.3.6 (2026-09-10)
+
+ZIP: `spec-harness-kit-v1.3.6-20260910.zip` · 파일 수: 59개
+
+### 1. `/spec-sync` 신규 — 라이브 기능정의서 Google Sheets 셀 단위 patch
+
+이미 데이터가 가득 찬 라이브 기능정의서 Google Sheets에, 대화에서 확정된 변경만 셀/행 단위로 직접 반영합니다. `scripts/gsheets_cell_patch.py` 신규.
+
+- `/qa-gen`의 Google Sheets writeback(`scripts/gsheets_writeback.py`, 탭 전체 덮어쓰기)과 완전히 별개 도구입니다. 서로 절대 혼용하지 않으며, `gsheets_writeback.py`는 이번 릴리즈에서 **일절 수정되지 않았습니다.**
+- change_type 4종: `update`(셀 교체), `insert_row`(행 삽입, 기존 행 아래로 밀림), `delete_row`(행 삭제), `fill_blank_row`(이미 비어있는 행 채우기).
+- write는 검증을 통과한 모든 change를 **단일 `spreadsheets.batchUpdate` 호출**로 원자적으로 처리합니다. write 직후 `post_write_verification`을 수행하되, `update`/`fill_blank_row`는 실제 값을 재조회해 대조하고, `insert_row`/`delete_row`는 값을 재조회하지 않고 batchUpdate 성공 여부로만 판단합니다(정확한 사후 행 위치 재조회는 v1 범위 밖).
+- `insert_row`는 "다음 행이 비어있어야 한다"는 검사 대신, 기준 행(`insert_after_row`)의 내용을 `expected_anchor_row_values`(+선택적 `anchor_target_id`)로 검증하는 방식으로 안전성을 높였습니다.
+- `target_id`/`anchor_target_id` + `id_column`(기본값: L10N 탭 A열, 그 외 기능정의 탭 B열)으로, 행 번호만 믿지 않고 실제 ID가 맞는지 write 전에 검증합니다.
+- dry-run → 사용자 승인 → write 순서를 반드시 따르며, 승인 없이는 절대 write하지 않습니다.
+- 관련 문서: `claude-config/commands/spec-sync.md`, `skills/spec-harness/references/gsheets-patch-rules.md`, `docs/gsheets-patch-roadmap.md`(Phase 2 체크박스→GitHub Issue 자동화·Phase 3 예약 루틴+approve 루프는 로드맵 문서화만, 이번 릴리즈에 구현되지 않음).
+
+### 2. 패키징 안정성 보정
+
+- `workspace/qa/`도 `workspace/.reports/`·`prototype/`·`project/`와 동일하게 `.gitkeep` 외 파일은 ZIP에서 제외됩니다 (작업 중 누적된 테스트/QA 생성 스크립트가 릴리즈 ZIP에 섞여 들어가는 것을 방지).
+- `workspace/gsheets-patch-plan.local.json`(실제 Sheets URL 포함)은 `workspace/gsheets-target.local.yaml`과 동일하게 ZIP/Git에서 제외됩니다. `.template` 파일만 배포됩니다.
+
+---
 ## v1.3.5 (2026-09-04)
 
 ZIP: `spec-harness-kit-v1.3.5-20260904.zip` · 파일 수: 54개
