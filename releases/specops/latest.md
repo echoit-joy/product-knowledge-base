@@ -1,8 +1,8 @@
-# SpecOps v1.3.7 — 배포 노트
+# SpecOps v1.3.6 — 배포 노트
 
 배포일: 2026-09-10
-ZIP: `spec-harness-kit-v1.3.7-20260910.zip`
-파일 수: 63개 (.gitkeep 6개 포함)
+ZIP: `spec-harness-kit-v1.3.6-20260910.zip`
+파일 수: 59개 (.gitkeep 6개 포함)
 e2e: PASS_WITH_REVIEW (fail=0, warn=0)
 install: CLEAN (package_release.sh 검증 완료)
 
@@ -10,52 +10,28 @@ install: CLEAN (package_release.sh 검증 완료)
 
 ## 주요 변경점
 
-> v1.3.7은 라이브 기능정의서 Google Sheets 자동화(Phase 1/2/3)를 목표로 하는 릴리즈입니다. 이번 배포는 **Phase 1 보강(다중 프로젝트 지원)**과 **Phase 2/3(QA List 완료 탭 스캔 → GitHub KB 반영 후보 Issue 생성 → ok/skip/수정 요청 approve 루프)**를 모두 반영합니다. Phase 2/3는 하나의 통합 설계로 재구현됐습니다 — 처음에 만들었던 "체크박스 → GitHub Issue 자동 생성" 방식은 제거하고, "완료된 건 중 KB에 반영할 만한 것만 후보로 만들고 사람이 확인 후 반영"하는 방식으로 다시 설계했습니다.
+### 1. `/spec-sync` 신규 — 라이브 기능정의서 Google Sheets 셀 단위 patch
 
-### 1. `/spec-sync` — 여러 프로젝트 지원
+이미 데이터가 가득 찬 라이브 기능정의서 Google Sheets에, 대화에서 확정된 변경만 셀/행 단위로 직접 반영합니다. `scripts/gsheets_cell_patch.py` 신규.
 
-`/spec-sync`가 이제 여러 프로젝트(Sheetric, PulseDesk 등)를 구분해서 처리합니다.
+- `/qa-gen`의 Google Sheets writeback(`scripts/gsheets_writeback.py`, 탭 전체 덮어쓰기)과 완전히 별개 도구입니다. 서로 절대 혼용하지 않으며, `gsheets_writeback.py`는 이번 릴리즈에서 **일절 수정되지 않았습니다.**
+- change_type 4종: `update`(셀 교체), `insert_row`(행 삽입, 기존 행 아래로 밀림), `delete_row`(행 삭제), `fill_blank_row`(이미 비어있는 행 채우기).
+- write는 검증을 통과한 모든 change를 **단일 `spreadsheets.batchUpdate` 호출**로 원자적으로 처리합니다. write 직후 `post_write_verification`을 수행하되, `update`/`fill_blank_row`는 실제 값을 재조회해 대조하고, `insert_row`/`delete_row`는 값을 재조회하지 않고 batchUpdate 성공 여부로만 판단합니다(정확한 사후 행 위치 재조회는 v1 범위 밖).
+- `insert_row`는 "다음 행이 비어있어야 한다"는 검사 대신, 기준 행(`insert_after_row`)의 내용을 `expected_anchor_row_values`(+선택적 `anchor_target_id`)로 검증하는 방식으로 안전성을 높였습니다.
+- `target_id`/`anchor_target_id` + `id_column`(기본값: L10N 탭 A열, 그 외 기능정의 탭 B열)으로, 행 번호만 믿지 않고 실제 ID가 맞는지 write 전에 검증합니다.
+- dry-run → 사용자 승인 → write 순서를 반드시 따르며, 승인 없이는 절대 write하지 않습니다.
+- 관련 문서: `claude-config/commands/spec-sync.md`, `skills/spec-harness/references/gsheets-patch-rules.md`, `docs/gsheets-patch-roadmap.md`(Phase 2 체크박스→GitHub Issue 자동화·Phase 3 예약 루틴+approve 루프는 로드맵 문서화만, 이번 릴리즈에 구현되지 않음).
 
-- 어떤 프로젝트에 반영할지 확실하지 않으면 먼저 물어봅니다. 짐작으로 진행하지 않습니다.
-- 프로젝트별 라이브 시트 주소는 로컬 설정 파일에 저장해두고 재사용할 수 있습니다.
-- 반영 전 미리보기에 어떤 프로젝트, 어떤 시트인지 함께 표시됩니다.
+### 2. 패키징 안정성 보정
 
-> 자세한 동작 방식: `claude-config/commands/spec-sync.md`, `skills/spec-harness/references/gsheets-patch-rules.md`
-
-### 2. QA List 완료 탭 → GitHub KB 반영 후보 자동화 (재설계)
-
-QA List Google Sheets의 `Bug_done`/`Feature_done`(또는 `Features_done`, 둘 다 지원) 탭을 1시간마다 스캔해서, GitHub KB에 아직 없는 반영 후보만 GitHub Issue로 만듭니다. 사용자는 그 Issue에 댓글로 `ok`(그대로 반영)/`skip`(반영 안 함)/수정 요청(자유 텍스트)을 남기면 됩니다.
-
-- 프로젝트명을 언급하며 요청하면 됩니다(예: "Sheetric 완료 QA 건 GitHub KB 반영 자동화해줘"). 프로젝트가 불명확하면 짐작하지 않고 먼저 확인합니다.
-- 반영 후보 판단 기준: 기능 추가, 정책 변경, 기존 동작 변경, 버튼명/문구 변경, 새 UI 추가, 권한·공유·검색·업로드·저장·삭제·복원·알림·메일 관련 변경. 단순 색상/간격/폰트/디자인 맞춤/단순 오류 수정은 제외됩니다.
-- 이미 GitHub KB(`features`, `decisions`, `meetings`, `project-context.md`)에 있는 내용이면 새 문서를 또 만들지 않고, "기존 문서를 보강할지" 검토해달라는 Issue를 만듭니다(중복 방지 이중 체크).
-- `ok`를 남기면 KB 문서 반영을 시도하되, **기존 문서의 형식과 구조를 먼저 확인하고 맞을 때만 반영**합니다 — decisions 문서는 정해진 형식(제목/상태/날짜/프로젝트/결정/이유/관련 화면)을 따르는 새 파일로만 만들고, feature-index.md는 표 구조를 그대로 유지하며, project-context.md는 가장 관련 있는 기존 섹션에만 짧게 추가합니다. 반영 위치가 애매하거나 형식이 안 맞으면 억지로 반영하지 않고 "수동 검토 필요"로 안내합니다.
-- 수정 요청은 `"교체: A -> B"` / `"삭제: 문장"` / `"추가: 문장"` / `"위치: ..."` 같은 정해진 형식으로 남기면 자동으로 초안을 다듬어 다시 보여줍니다(이 시점에는 KB에 반영되지 않습니다). 이 형식이 아니면 "수동 검토 필요"로 안내하고 그대로 기다립니다.
-- 필요한 GitHub 라벨(반영 후보/승인 대기/완료/미반영/프로젝트별 구분)은 없으면 자동으로 만들어집니다.
-- 제목·설명·화면·요청 내용·기대값 컬럼은 시트 헤더를 보고 자동으로 인식합니다 — 별도로 지정할 필요가 없습니다.
-- Issue는 기본 저장소(`echoit-joy/product-knowledge-base`)에 생성되며, 다른 저장소를 쓰고 싶을 때만 별도로 지정할 수 있습니다.
-- "자동화 종료"라고 말하면 해당 프로젝트의 자동화만 끕니다 — QA List 주소는 남겨두고 나중에 다시 켤 수 있습니다.
-- 실제 시트 URL과 GitHub 토큰은 배포 파일에 들어있지 않습니다 — 설치할 때 본인이 직접 등록합니다.
-
-> 설치 가이드: `docs/gsheets-issue-sync-install-guide.md`
-
-### 3. Phase 3 완성 — 예약 루틴 안정성 + approve 루프 마무리
-
-Phase 3(예약 루틴 + approve 댓글 루프)를 실사용 가능한 수준으로 완성했습니다.
-
-- **예약 루틴 안정성**: 매 실행마다 새 후보 스캔과 승인 처리(ok/skip/수정 요청)를 서로 독립적으로 실행합니다 — 한쪽에서 예상치 못한 오류가 나도 다른 쪽은 계속 처리됩니다.
-- **`ok` 처리**: KB 문서 반영에 성공하면 라벨을 `done`으로 바꾸고 Issue를 자동으로 닫습니다(closed: completed).
-- **`skip` 처리**: 라벨을 `skipped`로 바꾸고 Issue를 자동으로 닫습니다(closed: not planned).
-- **재처리 방지 이중화**: 이미 처리된(done/skipped) 건은 라벨 제거 + Issue 종료 두 조건으로 보호되어, 같은 건이 다시 승인 대상으로 올라오지 않습니다.
-- **KB 본문 안전장치 재확인**: Figma/Trello 링크, 구분값, 원본 행 번호에 이어 **Issue 번호도 KB 문서 본문에 절대 포함되지 않습니다.**
-
-> 설계 상세: `docs/gsheets-patch-roadmap.md` (Phase 3)
+- `workspace/qa/`도 `workspace/.reports/`·`prototype/`·`project/`와 동일하게 `.gitkeep` 외 파일은 ZIP에서 제외됩니다 (작업 중 누적된 테스트/QA 생성 스크립트가 릴리즈 ZIP에 섞여 들어가는 것을 방지).
+- `workspace/gsheets-patch-plan.local.json`(실제 Sheets URL 포함)은 `workspace/gsheets-target.local.yaml`과 동일하게 ZIP/Git에서 제외됩니다. `.template` 파일만 배포됩니다.
 
 ---
 
 ## 팀원이 해야 할 일
 
-1. ZIP 파일(`spec-harness-kit-v1.3.7-20260910.zip`) 다운로드
+1. ZIP 파일(`spec-harness-kit-v1.3.6-20260910.zip`) 다운로드
 2. 기존 `spec-harness-kit/` 폴더를 새 ZIP으로 교체
 3. `bash install.sh` 실행 (명령어 파일 갱신)
 4. Claude Code 재시작
@@ -73,4 +49,4 @@ Phase 3(예약 루틴 + approve 댓글 루프)를 실사용 가능한 수준으�
 
 ---
 
-_generated by publish_release_to_github.sh — v1.3.7 · 2026-09-10_
+_generated by publish_release_to_github.sh — v1.3.6 · 2026-09-10_
