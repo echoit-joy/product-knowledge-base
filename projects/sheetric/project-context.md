@@ -1,6 +1,6 @@
 # Sheetric Project Context
 
-_updated: 2026-08-25_
+_updated: 2026-09-22_
 
 ## 현재 기준
 
