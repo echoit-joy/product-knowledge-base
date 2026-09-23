@@ -8,6 +8,21 @@ install: CLEAN (package_release.sh 검증 완료)
 
 ---
 
+## 핫픽스 이력
+
+### hotfix2 (2026-09-22) — `_updated` 정책 실행 순서 보완 및 검증 강화
+
+- **project-flow.md**: `_updated` 갱신을 `[PF-10B] KB Writeback 완료` 출력 **앞**으로 이동. 갱신 실패 시 완료 대신 `[PF-10B] KB Writeback 부분 실패` 출력 명시.
+- **package_release.sh**: check 98/99를 단순 문구 확인에서 4요소 검증(정책선언·Asia/Seoul 타임존·dry-run/meetings 제외조건·H1 정규화)으로 강화. check 100(실행 순서), check 101(부분 실패 출력) 신규 추가.
+
+### hotfix1 (2026-09-22) — `project-context.md _updated` 자동 갱신 정책 최초 적용
+
+- CLAUDE.md·SKILL.md·spec-flow.md·project-flow.md에 `_updated` 갱신 트리거·제외 조건·날짜 처리 규칙 추가.
+- package_release.sh check 98/99 신규 추가.
+- `projects/sheetric/project-context.md` 날짜 `2026-08-25` → `2026-09-22` 보정 (별도 커밋, main).
+
+---
+
 ## 주요 변경점
 
 ### 1. `/spec-sync` 신규 — 라이브 기능정의서 Google Sheets 셀 단위 patch
@@ -35,6 +50,7 @@ install: CLEAN (package_release.sh 검증 완료)
 2. 기존 `spec-harness-kit/` 폴더를 새 ZIP으로 교체
 3. `bash install.sh` 실행 (명령어 파일 갱신)
 4. Claude Code 재시작
+5. `/spec-sync`를 쓰려면 `workspace/gsheets-patch-plan.local.json.template`을 `gsheets-patch-plan.local.json`으로 복사 후 채우세요. OAuth 인증은 기존 `scripts/setup_gsheets_oauth.sh`로 이미 완료했다면 재인증 불필요합니다.
 
 > **workspace/spec/, workspace/qa/ 내 기존 XLSX는 삭제되지 않습니다.**
 > 새 ZIP을 이전 폴더 위치에 압축 해제하면 파일이 덮어써질 수 있으니 주의하세요.
@@ -46,6 +62,7 @@ install: CLEAN (package_release.sh 검증 완료)
 - 이전 버전 ZIP과 함께 사용하지 마세요.
 - `install.sh` 실행 전 Claude Code가 실행 중이면 종료 후 실행하세요.
 - GitHub KB write 기능(`/project-flow`)은 `gh auth login`이 필요합니다.
+- `/spec-sync`는 라이브 기능정의서 Google Sheets에 직접 쓰는 도구입니다. 반드시 dry-run 결과를 확인하고 명시적으로 승인한 뒤에만 write를 진행하세요.
 
 ---
 
