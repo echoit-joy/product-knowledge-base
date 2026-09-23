@@ -34,6 +34,34 @@
 - `features/feature-index.md`는 현재 기능의 지도입니다. 결정 이유를 길게 쓰지 않습니다.
 - 현재 기능정의서 XLSX는 상세 기준입니다. 기능 ID, L10N ID, QA 기준과 충돌하지 않도록 AI가 참고합니다.
 
+## `project-context.md`와 `_updated` 필드
+
+각 프로젝트의 `projects/{key}/project-context.md` 첫 번째 줄(H1 바로 아래)에는 아래 형식의 날짜가 있습니다.
+
+```
+_updated: YYYY-MM-DD_
+```
+
+이 날짜는 해당 프로젝트의 **권위 문서**가 마지막으로 실제 변경된 날짜를 나타냅니다. 문서를 열었을 때 이 날짜 이후로 중요한 변경이 있었는지 빠르게 판단할 수 있습니다.
+
+### 자동 갱신 대상
+
+아래 문서 중 하나라도 실제로 생성·수정·교체되면, 같은 작업에서 `_updated`를 Asia/Seoul 기준 오늘 날짜로 갱신합니다.
+
+| 문서 | 갱신 조건 |
+| --- | --- |
+| `projects/{key}/project-context.md` 본문 | 내용 실제 변경 시 |
+| `projects/{key}/features/feature-index.md` | 생성·수정 시 |
+| `projects/{key}/decisions/*.md` | 생성·수정 시 |
+| `projects/{key}/xlsx/*.xlsx` | 교체·업로드 시 |
+| 기능정의서 수정본 업로드 | 교체 성공 시 |
+
+### 갱신하지 않는 경우
+
+- dry-run, no-op, 쓰기 실패·중단
+- `meetings/`, `references/`, README, release 문서만 변경된 경우
+- 다른 프로젝트의 문서 변경
+
 ## 커밋 메시지 규칙
 
 이 저장소의 커밋 메시지는 아래 형식으로 통일합니다.
